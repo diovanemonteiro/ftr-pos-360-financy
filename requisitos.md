@@ -63,7 +63,11 @@ Não se esqueça de habilitar o CORS na aplicação.
 
 #### Quer ir além?
 
-Lembre-se de seguir todos os requisitos obrigatórios, principalmente os relacionados às tecnologias, como o `GraphQL`. Mas você aprendeu bastante conteúdo ao longo da sua jornada da Pós-Graduação e, se quiser se desafiar, pode aplicar os conceitos de boas práticas e DevOps que estudou. Apenas lembre-se de configurar todo o ambiente para que a aplicação possa ser executada localmente.
+Lembre-se de seguir todos os requisitos obrigatórios, principalmente os relacionados às tecnologias, como o `GraphQL`. 
+
+Mas você aprendeu bastante conteúdo ao longo da sua jornada da Pós-Graduação e, se quiser se desafiar, pode aplicar os conceitos de boas práticas e DevOps que estudou. 
+
+Apenas lembre-se de configurar todo o ambiente para que a aplicação possa ser executada localmente.
 
 ---
 
@@ -72,6 +76,7 @@ Lembre-se de seguir todos os requisitos obrigatórios, principalmente os relacio
 Nesse projeto front-end será desenvolvido uma aplicação React que, em conjunto com a API, permite o gerenciamento de transações e categorias.
 
 #### Funcionalidades e Regras
+
 Assim como na API, temos as seguintes funcionalidades e regras:
 
 - O usuário pode criar uma conta e fazer login
@@ -100,7 +105,9 @@ Essa aplicação possui 6 páginas e dois modais com os formulários (Dialog):
 
 #### Variáveis ambiente
 
-Todo projeto tem diversas configurações de variáveis que devem ser diferentes de acordo com o ambiente que ele é executado. Para isso, importante sabermos, de forma fácil e intuitiva, quais variáveis são essas. Então é obrigatório que esse projeto tenha um arquivo `.env.example` com as chaves necessárias:
+Todo projeto tem diversas configurações de variáveis que devem ser diferentes de acordo com o ambiente que ele é executado. 
+
+Para isso, importante sabermos, de forma fácil e intuitiva, quais variáveis são essas. Então é obrigatório que esse projeto tenha um arquivo `.env.example` com as chaves necessárias:
 
 ```shell
 VITE_BACKEND_URL=
