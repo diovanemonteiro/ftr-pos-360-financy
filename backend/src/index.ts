@@ -1,13 +1,15 @@
-import { express } from 'express'
+import express from 'express'
 import { ApolloServer } from '@apollo/server'
 import { buildSchema } from "type-graphql";
 import { expressMiddleware } from "@as-integrations/express5";
+
+import { AuthResolver } from "./resolvers/auth.resolver.js";
 
 async function bootstrap() {
     const app = express()
 
     const schema = await buildSchema({
-        resolvers: [],
+        resolvers: [AuthResolver],
         validate: false,
         emitSchemaFile: './schema.graphql',
     })
