@@ -3,7 +3,7 @@ import { ApolloServer } from '@apollo/server'
 import { buildSchema } from "type-graphql";
 import { expressMiddleware } from "@as-integrations/express5";
 
-import { AuthResolver } from "./resolvers/auth.resolver.js";
+import { AuthResolver } from "./resolvers/auth.resolver";
 
 async function bootstrap() {
     const app = express()
