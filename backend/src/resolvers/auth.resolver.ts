@@ -1,7 +1,7 @@
 import { Arg, Mutation, Resolver } from "type-graphql";
-import {RegisterOutput} from "../dtos/output/auth.output.js";
-import {RegisterInput} from "../dtos/input/auth.input.js";
-import type {AuthService} from "../services/auth.service.js";
+import {RegisterOutput} from "../dtos/output/auth.output";
+import {RegisterInput} from "../dtos/input/auth.input";
+import type {AuthService} from "../services/auth.service";
 
 @Resolver()
 export class AuthResolver {
