@@ -1,26 +1,21 @@
 {
   "compilerOptions": {
     /* Environment Settings */
-    "lib": [
-      "es2024",
-      "ESNext.Array",
-      "ESNext.Collection",
-      "ESNext.Error",
-      "ESNext.Iterator",
-      "ESNext.Promise"
-    ],
-    "module": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "es2024",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node16",
+    "lib": ["es2024"],
     "types": ["node"],
 
     /* Decorators for TypeGraphQL */
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "rootDir": "src",
     "outDir": "dist",
   }
 }
+
+
