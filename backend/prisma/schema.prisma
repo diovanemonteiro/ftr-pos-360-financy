@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TransactionType {
+  income
+  expense
+}
+
 model User {
   id           String        @id @default(uuid())
   name         String
@@ -17,4 +22,16 @@ model User {
   password     String
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  categories   Category[]
+}
+
+model Category {
+  id           String          @id @default(uuid())
+  name         String
+  color        String?
+  type         TransactionType
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
