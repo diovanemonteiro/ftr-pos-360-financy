@@ -20,6 +20,15 @@ input CreateCategoryInput {
   type: TransactionType!
 }
 
+input CreateTransactionInput {
+  amount: Float!
+  categoryId: String!
+  date: String!
+  description: String
+  title: String!
+  type: TransactionType!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
@@ -43,16 +52,20 @@ type LoginOutput {
 
 type Mutation {
   createCategory(data: CreateCategoryInput!): CategoryModel!
+  createTransaction(data: CreateTransactionInput!): TransactionModel!
   createUser(input: CreateUserInput!): UserModel!
   deleteCategory(id: String!): Boolean!
+  deleteTransaction(id: String!): Boolean!
   login(data: LoginInput!): LoginOutput!
   register(data: RegisterInput!): RegisterOutput!
   updateCategory(data: UpdateCategoryInput!, id: String!): CategoryModel!
+  updateTransaction(data: UpdateTransactionInput!, id: String!): TransactionModel!
 }
 
 type Query {
   getUser(id: String!): UserModel!
   listCategories: [CategoryModel!]!
+  listTransactions: [TransactionModel!]!
 }
 
 input RegisterInput {
@@ -67,6 +80,21 @@ type RegisterOutput {
   user: UserModel!
 }
 
+type TransactionModel {
+  amount: Float!
+  category: CategoryModel
+  categoryId: String!
+  createdAt: DateTimeISO!
+  date: DateTimeISO!
+  description: String
+  id: ID!
+  title: String!
+  type: TransactionType!
+  updatedAt: DateTimeISO!
+  user: UserModel
+  userId: String!
+}
+
 """Type of transaction: income or expense"""
 enum TransactionType {
   expense
@@ -76,6 +104,15 @@ enum TransactionType {
 input UpdateCategoryInput {
   color: String
   name: String
+  type: TransactionType
+}
+
+input UpdateTransactionInput {
+  amount: Float
+  categoryId: String
+  date: String
+  description: String
+  title: String
   type: TransactionType
 }
 
