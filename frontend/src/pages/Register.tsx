@@ -104,11 +104,14 @@ export function Register() {
                         Já tem uma conta?
                     </p>
 
-                    <Button variant="outline" className="w-full" asChild>
-                        <Link to="/login" className="flex items-center justify-center gap-2">
-                            <LogIn className="size-4" />
-                            Fazer login
-                        </Link>
+                    <Button
+                        variant="outline"
+                        className="w-full"
+                        render={<Link to="/login" />}
+                        nativeButton={false}
+                    >
+                        <LogIn className="size-4" />
+                        Fazer login
                     </Button>
                 </CardContent>
             </Card>
