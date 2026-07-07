@@ -4,6 +4,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import {Login} from "@/pages/Login.tsx";
+import {Register} from "@/pages/Register.tsx";
 import {Layout} from "@/components/Layout";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Layout>
           <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
           </Routes>
       </Layout>
     </>
