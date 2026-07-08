@@ -95,7 +95,9 @@ export function Register() {
                             size="xl"
                             className="w-full"
                         >
-                            Cadastrar
+                            <span className="text-base font-medium text-background leading-6">
+                                Cadastrar
+                            </span>
                         </Button>
                     </form>
 
@@ -117,7 +119,9 @@ export function Register() {
                         nativeButton={false}
                     >
                         <LogIn className="size-4" />
-                        Fazer login
+                        <span className="text-base font-medium text-gray-700 leading-6">
+                            Fazer login
+                        </span>
                     </Button>
                 </CardContent>
             </Card>
