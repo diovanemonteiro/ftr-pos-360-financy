@@ -22,7 +22,7 @@ export function Login() {
     return (
         <div className="flex flex-col min-h-[calc(100vh-4rem)] items-center justify-center gap-6">
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
                 <img src={logoIcon} className="size-8" alt="Logo Icon" />
                 <img src={logo} className="w-22.5 h-4.5" alt="Logo" />
             </div>
