@@ -5,7 +5,9 @@ import {Label} from "@/components/ui/label"
 import {Button} from "@/components/ui/button";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Link} from "react-router-dom";
-import {Coins, Mail, Lock, Eye, EyeClosed, UserRoundPlus} from "lucide-react";
+import { Mail, Lock, Eye, EyeClosed, UserRoundPlus} from "lucide-react";
+import logo from "@/assets/logo.png";
+import logoIcon from "@/assets/logo-icon.png";
 
 export function Login() {
     const [email, setEmail] = useState('')
@@ -21,8 +23,8 @@ export function Login() {
         <div className="flex flex-col min-h-[calc(100vh-4rem)] items-center justify-center gap-6">
 
             <div className="flex items-center gap-2">
-                <Coins className="size-6 text-primary" />
-                <span className="text-xl font-extrabold tracking-tight text-primary">FINANCY</span>
+                <img src={logoIcon} className="size-8" alt="Logo Icon" />
+                <img src={logo} className="w-22.5 h-4.5" alt="Logo" />
             </div>
 
             <Card className="w-full max-w-lg rounded-lg space-y-4 px-2 py-8">
