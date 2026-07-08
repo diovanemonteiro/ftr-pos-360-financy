@@ -5,7 +5,7 @@ import {Label} from "@/components/ui/label"
 import {Button} from "@/components/ui/button";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Link} from "react-router-dom";
-import {Coins, Mail, Lock, Eye, EyeOff, EyeClosed, UserPlus, UserRoundPlus} from "lucide-react";
+import {Coins, Mail, Lock, Eye, EyeClosed, UserRoundPlus} from "lucide-react";
 
 export function Login() {
     const [email, setEmail] = useState('')
@@ -13,8 +13,8 @@ export function Login() {
     const [rememberMe, setRememberMe] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
     }
 
     return (
@@ -25,7 +25,7 @@ export function Login() {
                 <span className="text-xl font-extrabold tracking-tight text-primary">FINANCY</span>
             </div>
 
-            <Card className="w-full max-w-md rounded-lg space-y-4 px-2 py-8">
+            <Card className="w-full max-w-lg rounded-lg space-y-4 px-2 py-8">
 
                 <CardHeader>
                     <CardTitle className="text-xl! leading-7 font-bold text-center text-gray-800">
