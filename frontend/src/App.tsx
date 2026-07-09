@@ -4,6 +4,7 @@ import {Register} from "@/pages/Auth/Register.tsx";
 import {Layout} from "@/components/Layout";
 import {useAuthStore} from "@/stores/auth";
 import {Dashboard} from "@/pages/Dashboard";
+import {Categories} from "@/pages/Categories";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { isAuthenticated } = useAuthStore()
@@ -23,6 +24,7 @@ function App() {
               <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
               <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
               <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
           </Routes>
       </Layout>
     </>
