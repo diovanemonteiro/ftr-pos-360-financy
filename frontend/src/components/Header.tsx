@@ -2,15 +2,20 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/auth'
 import { Button } from './ui/button'
 import { Avatar, AvatarFallback } from './ui/avatar'
-import { LayoutDashboard, LogOut, Tag } from 'lucide-react'
+import { LogOut } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import logoIcon from '../assets/logo-icon.png'
+
+const NAV_ITEMS = [
+  { label: 'Dashboard', to: '/' },
+  { label: 'Transações', to: '/transactions' },
+  { label: 'Categorias', to: '/categories' },
+]
 
 export function Header() {
   const { user, logout, isAuthenticated } = useAuthStore()
   const location = useLocation()
   const navigate = useNavigate()
-  const isDashboard = location.pathname === '/'
-  const isCategories = location.pathname === '/categories'
 
   const handleLogout = () => {
     logout()
@@ -18,26 +23,29 @@ export function Header() {
   }
 
   return (
-    <div className="w-full px-8 pt-6">
+    <div className="w-full border-b bg-white px-8 py-4">
       {isAuthenticated && (
-        <div className="flex justify-between w-full items-center">
+        <div className="flex w-full items-center justify-between">
           <div className="min-w-48">
-            <img src={logoIcon} alt="Logo Icon" />
+            <img src={logoIcon} alt="Logo Icon" className="h-8 w-auto" />
           </div>
-          <div className="flex items-center gap-2">
-            <Link to="/">
-              <Button size="sm" className="gap-2" variant={isDashboard ? 'default' : 'ghost'}>
-                <LayoutDashboard className="h-4 w-4" />
-                Transações
-              </Button>
-            </Link>
-            <Link to="/categories">
-              <Button size="sm" className="gap-2" variant={isCategories ? 'default' : 'ghost'}>
-                <Tag className="h-4 w-4" />
-                Categorias
-              </Button>
-            </Link>
-          </div>
+          <nav className="flex items-center gap-6">
+            {NAV_ITEMS.map((item) => {
+              const isActive = location.pathname === item.to
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={cn(
+                    'text-sm font-medium transition-colors',
+                    isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
+          </nav>
           <div className="flex items-center gap-2">
             <Avatar>
               <AvatarFallback className="bg-primary text-primary-foreground">
