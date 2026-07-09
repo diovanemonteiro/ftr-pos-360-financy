@@ -7,15 +7,28 @@ import {Link} from "react-router-dom";
 import {User, Mail, Lock, Eye, EyeClosed, LogIn} from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import logo from "@/assets/logo.png";
+import {useAuthStore} from "@/stores/auth";
+import {toast} from "sonner";
 
 export function Register() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const signup = useAuthStore((state) => state.signup)
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setLoading(true)
+        try {
+            await signup({ name, email, password })
+            toast.success('Conta criada com sucesso!')
+        } catch {
+            toast.error('Falha ao criar conta. O e-mail pode já estar em uso.')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -96,9 +109,10 @@ export function Register() {
                             type="submit"
                             size="xl"
                             className="w-full"
+                            disabled={loading}
                         >
                             <span className="text-base font-medium text-background leading-6">
-                                Cadastrar
+                                {loading ? 'Cadastrando...' : 'Cadastrar'}
                             </span>
                         </Button>
                     </form>
