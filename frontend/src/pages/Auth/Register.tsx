@@ -1,32 +1,31 @@
 import {useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label"
-import {Button} from "@/components/ui/button";
-import {Checkbox} from "@/components/ui/checkbox";
+import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {Label} from "@/components/ui/label.tsx"
+import {Button} from "@/components/ui/button.tsx";
 import {Link} from "react-router-dom";
-import { Mail, Lock, Eye, EyeClosed, UserRoundPlus} from "lucide-react";
-import logo from "@/assets/logo.png";
+import {User, Mail, Lock, Eye, EyeClosed, LogIn} from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
+import logo from "@/assets/logo.png";
+import {useAuthStore} from "@/stores/auth.ts";
 import {toast} from "sonner";
-import {useAuthStore} from "@/stores/auth";
 
-export function Login() {
+export function Register() {
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [rememberMe, setRememberMe] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
-    const login = useAuthStore((state) => state.login)
+    const signup = useAuthStore((state) => state.signup)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
         try {
-            await login({ email, password })
-            toast.success('Login realizado com sucesso!')
+            await signup({ name, email, password })
+            toast.success('Cadastro realizado com sucesso!')
         } catch {
-            toast.error('Falha ao realizar o login. Verifique suas credenciais.')
+            toast.error('Erro ao realizar o cadastro. O e-mail pode já estar em uso.')
         } finally {
             setLoading(false)
         }
@@ -41,18 +40,31 @@ export function Login() {
             </div>
 
             <Card className="w-full max-w-lg rounded-lg space-y-4 px-2 py-8">
-
                 <CardHeader>
                     <CardTitle className="text-xl! leading-7 font-bold text-center text-gray-800">
-                        Fazer login
+                        Criar conta
                     </CardTitle>
                     <CardDescription className="text-base leading-6 font-normal text-center text-gray-600">
-                        Entre na sua conta para continuar
+                        Comece a controlar suas finanças ainda hoje
                     </CardDescription>
                 </CardHeader>
-
                 <CardContent className="space-y-5">
                     <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Nome completo</Label>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    placeholder="Seu nome completo"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="px-9"
+                                    required
+                                />
+                            </div>
+                        </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">E-mail</Label>
                             <div className="relative">
@@ -63,7 +75,7 @@ export function Login() {
                                     placeholder="mail@exemplo.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="pl-9"
+                                    className="px-9"
                                     required
                                 />
                             </div>
@@ -89,19 +101,9 @@ export function Login() {
                                     {showPassword ? <EyeClosed className="size-4" /> : <Eye className="size-4" />}
                                 </button>
                             </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <Checkbox
-                                    id="remember-me"
-                                    checked={rememberMe}
-                                    onCheckedChange={setRememberMe}
-                                />
-                                <Label htmlFor="remember-me" className="font-normal">Lembrar-me</Label>
-                            </div>
-                            <Link to="/forgot-password" className="text-sm font-medium text-primary hover:underline">
-                                Recuperar senha
-                            </Link>
+                            <p className="text-xs text-muted-foreground">
+                                A senha deve ter no mínimo 8 caracteres
+                            </p>
                         </div>
                         <Button
                             type="submit"
@@ -110,7 +112,7 @@ export function Login() {
                             disabled={loading}
                         >
                             <span className="text-base font-medium text-background leading-6">
-                                {loading ? 'Entrando...' : 'Entrar'}
+                                {loading ? 'Cadastrando...' : 'Cadastrar'}
                             </span>
                         </Button>
                     </form>
@@ -126,19 +128,18 @@ export function Login() {
                     </p>
 
                     <Button
-                        size="xl"
                         variant="outline"
+                        size="xl"
                         className="w-full"
-                        render={<Link to="/register" />}
+                        render={<Link to="/login" />}
                         nativeButton={false}
                     >
-                        <UserRoundPlus className="size-4.5 text-gray-700" />
+                        <LogIn className="size-4" />
                         <span className="text-base font-medium text-gray-700 leading-6">
-                            Criar conta
+                            Fazer login
                         </span>
                     </Button>
                 </CardContent>
-
             </Card>
         </div>
     )
