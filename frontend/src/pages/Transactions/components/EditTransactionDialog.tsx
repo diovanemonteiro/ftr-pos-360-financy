@@ -1,78 +1,79 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
+} from '@/components/ui/dialog.tsx'
+import { Label } from '@/components/ui/label.tsx'
+import { Input } from '@/components/ui/input.tsx'
+import { Button } from '@/components/ui/button.tsx'
+import { Textarea } from '@/components/ui/textarea.tsx'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select.tsx'
 import { useMutation, useQuery } from '@apollo/client/react'
-import { CREATE_TRANSACTION } from '@/lib/graphql/mutations/Transaction'
-import { LIST_CATEGORIES } from '@/lib/graphql/queries/Category'
+import { UPDATE_TRANSACTION } from '@/lib/graphql/mutations/Transaction.ts'
+import { LIST_CATEGORIES } from '@/lib/graphql/queries/Category.ts'
 import { toast } from 'sonner'
-import type { Category } from '@/types'
+import type { Category, Transaction } from '@/types'
 
-interface CreateTransactionDialogProps {
+interface EditTransactionDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onCreated?: () => void
+  transaction: Transaction | null
+  onUpdated?: () => void
 }
 
-export function CreateTransactionDialog({
+export function EditTransactionDialog({
   open,
   onOpenChange,
-  onCreated,
-}: CreateTransactionDialogProps) {
+  transaction,
+  onUpdated,
+}: EditTransactionDialogProps) {
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [date, setDate] = useState('')
   const [description, setDescription] = useState('')
   const [categoryId, setCategoryId] = useState('')
 
   const { data: categoriesData } = useQuery<{ listCategories: Category[] }>(LIST_CATEGORIES)
   const categories = categoriesData?.listCategories || []
 
-  const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
+  useEffect(() => {
+    if (transaction) {
+      setTitle(transaction.title)
+      setAmount(String(transaction.amount))
+      setType(transaction.type)
+      setDate(transaction.date.split('T')[0])
+      setDescription(transaction.description || '')
+      setCategoryId(transaction.categoryId)
+    }
+  }, [transaction])
+
+  const [updateTransaction, { loading }] = useMutation(UPDATE_TRANSACTION, {
     onCompleted() {
-      toast.success('Transação criada com sucesso!')
+      toast.success('Transação atualizada com sucesso!')
       onOpenChange(false)
-      onCreated?.()
-      resetForm()
+      onUpdated?.()
     },
     onError() {
-      toast.error('Falha ao criar a transação.')
+      toast.error('Falha ao atualizar a transação.')
     },
   })
 
-  const resetForm = () => {
-    setTitle('')
-    setAmount('')
-    setType('expense')
-    setDate(new Date().toISOString().split('T')[0])
-    setDescription('')
-    setCategoryId('')
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!categoryId) {
-      toast.error('Selecione uma categoria.')
-      return
-    }
-    createTransaction({
+    if (!transaction) return
+    updateTransaction({
       variables: {
+        id: transaction.id,
         data: {
           title,
           amount: parseFloat(amount),
@@ -91,15 +92,14 @@ export function CreateTransactionDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Nova transação</DialogTitle>
-          <DialogDescription>Preencha os dados da transação</DialogDescription>
+          <DialogTitle className="text-xl font-bold">Editar transação</DialogTitle>
+          <DialogDescription>Atualize os dados da transação</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1">
-            <Label htmlFor="title">Título</Label>
+            <Label htmlFor="edit-title">Título</Label>
             <Input
-              id="title"
-              placeholder="Ex: Salário, Supermercado..."
+              id="edit-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -108,13 +108,12 @@ export function CreateTransactionDialog({
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <Label htmlFor="amount">Valor (R$)</Label>
+              <Label htmlFor="edit-amount">Valor (R$)</Label>
               <Input
-                id="amount"
+                id="edit-amount"
                 type="number"
                 min="0.01"
                 step="0.01"
-                placeholder="0,00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
@@ -122,9 +121,9 @@ export function CreateTransactionDialog({
               />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="date">Data</Label>
+              <Label htmlFor="edit-date">Data</Label>
               <Input
-                id="date"
+                id="edit-date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
@@ -152,25 +151,18 @@ export function CreateTransactionDialog({
                 <SelectValue placeholder="Selecione uma categoria" />
               </SelectTrigger>
               <SelectContent>
-                {filteredCategories.length === 0 ? (
-                  <div className="px-2 py-4 text-sm text-muted-foreground text-center">
-                    Nenhuma categoria de {type === 'income' ? 'receita' : 'despesa'}
-                  </div>
-                ) : (
-                  filteredCategories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </SelectItem>
-                  ))
-                )}
+                {filteredCategories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="description">Descrição (opcional)</Label>
+            <Label htmlFor="edit-description">Descrição (opcional)</Label>
             <Textarea
-              id="description"
-              placeholder="Adicione uma observação..."
+              id="edit-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
