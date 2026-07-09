@@ -23,9 +23,9 @@ export function Register() {
         setLoading(true)
         try {
             await signup({ name, email, password })
-            toast.success('Conta criada com sucesso!')
+            toast.success('Cadastro realizado com sucesso!')
         } catch {
-            toast.error('Falha ao criar conta. O e-mail pode já estar em uso.')
+            toast.error('Erro ao realizar o cadastro. O e-mail pode já estar em uso.')
         } finally {
             setLoading(false)
         }
