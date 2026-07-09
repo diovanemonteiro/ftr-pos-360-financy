@@ -8,15 +8,28 @@ import {Link} from "react-router-dom";
 import { Mail, Lock, Eye, EyeClosed, UserRoundPlus} from "lucide-react";
 import logo from "@/assets/logo.png";
 import logoIcon from "@/assets/logo-icon.png";
+import {toast} from "sonner";
+import {useAuthStore} from "@/stores/auth";
 
 export function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [rememberMe, setRememberMe] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const login = useAuthStore((state) => state.login)
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setLoading(true)
+        try {
+            await login({ email, password })
+            toast.success('Login realizado com sucesso!')
+        } catch {
+            toast.error('Falha ao realizar o login. Verifique suas credenciais.')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -94,9 +107,10 @@ export function Login() {
                             type="submit"
                             size="xl"
                             className="w-full"
+                            disabled={loading}
                         >
                             <span className="text-base font-medium text-background leading-6">
-                                Entrar
+                                {loading ? 'Entrando...' : 'Entrar'}
                             </span>
                         </Button>
                     </form>
