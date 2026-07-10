@@ -7,6 +7,8 @@ export class CategoryService {
       data: {
         name: data.name,
         color: data.color,
+        icon: data.icon,
+        description: data.description,
         type: data.type,
         userId,
       },
@@ -35,6 +37,8 @@ export class CategoryService {
       data: {
         name: data.name,
         color: data.color,
+        icon: data.icon,
+        description: data.description,
         type: data.type,
       },
     })

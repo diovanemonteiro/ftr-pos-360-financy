@@ -1,4 +1,4 @@
-import { Field, GraphQLISODateTime, ID, ObjectType, registerEnumType } from 'type-graphql'
+import { Field, GraphQLISODateTime, ID, Int, ObjectType, registerEnumType } from 'type-graphql'
 import { TransactionType } from '@prisma/client'
 import { UserModel } from './user.model'
 
@@ -18,6 +18,12 @@ export class CategoryModel {
   @Field(() => String, { nullable: true })
   color?: string
 
+  @Field(() => String, { nullable: true })
+  icon?: string
+
+  @Field(() => String, { nullable: true })
+  description?: string
+
   @Field(() => TransactionType)
   type!: TransactionType
 
@@ -26,6 +32,9 @@ export class CategoryModel {
 
   @Field(() => UserModel, { nullable: true })
   user?: UserModel
+
+  @Field(() => Int, { nullable: true })
+  itemsCount?: number
 
   @Field(() => GraphQLISODateTime)
   createdAt!: Date

@@ -1,4 +1,4 @@
-import { Arg, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
+import { Arg, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { CategoryModel } from '../models/category.model'
 import { UserModel } from '../models/user.model'
 import { CreateCategoryInput, UpdateCategoryInput } from '../dtos/input/category.input'
@@ -45,5 +45,10 @@ export class CategoryResolver {
   @FieldResolver(() => UserModel, { nullable: true })
   async user(@Root() category: CategoryModel): Promise<UserModel | null> {
     return prismaClient.user.findUnique({ where: { id: category.userId } })
+  }
+
+  @FieldResolver(() => Int)
+  async itemsCount(@Root() category: CategoryModel): Promise<number> {
+    return prismaClient.transaction.count({ where: { categoryId: category.id } })
   }
 }
