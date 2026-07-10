@@ -22,6 +22,7 @@ import { UPDATE_CATEGORY } from '@/lib/graphql/mutations/Category'
 import { toast } from 'sonner'
 import type { Category } from '@/types'
 import { IconPicker } from './IconPicker'
+import { ColorPicker } from './ColorPicker'
 
 interface EditCategoryDialogProps {
   open: boolean
@@ -118,17 +119,8 @@ export function EditCategoryDialog({
             <IconPicker value={icon} onChange={setIcon} disabled={loading} />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="edit-cat-color">Cor</Label>
-            <div className="flex items-center gap-3">
-              <input
-                id="edit-cat-color"
-                type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                className="h-9 w-16 rounded-md border border-input cursor-pointer"
-              />
-              <span className="text-sm text-muted-foreground">{color}</span>
-            </div>
+            <Label>Cor</Label>
+            <ColorPicker value={color} onChange={setColor} disabled={loading} />
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
