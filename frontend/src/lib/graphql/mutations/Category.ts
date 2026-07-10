@@ -6,6 +6,8 @@ export const CREATE_CATEGORY = gql`
       id
       name
       color
+      icon
+      description
       type
       userId
       createdAt
@@ -20,6 +22,8 @@ export const UPDATE_CATEGORY = gql`
       id
       name
       color
+      icon
+      description
       type
       userId
       createdAt

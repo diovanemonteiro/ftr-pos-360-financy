@@ -6,8 +6,11 @@ export const LIST_CATEGORIES = gql`
       id
       name
       color
+      icon
+      description
       type
       userId
+      itemsCount
       createdAt
       updatedAt
     }
