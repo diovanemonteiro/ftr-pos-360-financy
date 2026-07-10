@@ -23,8 +23,11 @@ export interface Category {
   id: string
   name: string
   color?: string | null
+  icon?: string | null
+  description?: string | null
   type: TransactionType
   userId: string
+  itemsCount?: number
   createdAt: string
   updatedAt?: string
 }
