@@ -1,5 +1,6 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import type { Category } from '@/types'
 
 interface CategoryCardProps {
@@ -9,30 +10,52 @@ interface CategoryCardProps {
 }
 
 export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) {
-  const isIncome = category.type === 'income'
+  const color = category.color || '#6366f1'
 
   return (
-    <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:shadow-sm transition-shadow">
-      <div className="flex items-center gap-3">
+    <Card size="sm" className="gap-3">
+      <div className="flex items-start justify-between">
         <div
-          className="w-4 h-4 rounded-full flex-shrink-0"
-          style={{ backgroundColor: category.color || '#6366f1' }}
-        />
-        <div>
-          <p className="font-medium text-sm">{category.name}</p>
-          <p className="text-xs text-muted-foreground">
-            {isIncome ? 'Receita' : 'Despesa'}
-          </p>
+          className="flex h-11 w-11 items-center justify-center rounded-lg text-2xl"
+          style={{ backgroundColor: `${color}1a` }}
+        >
+          {category.icon || '🏷️'}
+        </div>
+        <div className="flex gap-1">
+          <Button variant="outline" size="icon-sm" onClick={() => onEdit(category)}>
+            <Pencil className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="border-destructive/30 text-destructive hover:bg-destructive/10"
+            onClick={() => onDelete(category)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
         </div>
       </div>
-      <div className="flex gap-1">
-        <Button variant="ghost" size="icon" onClick={() => onEdit(category)}>
-          <Pencil className="w-4 h-4" />
-        </Button>
-        <Button variant="ghost" size="icon" onClick={() => onDelete(category)}>
-          <Trash2 className="w-4 h-4 text-destructive" />
-        </Button>
+
+      <div>
+        <p className="font-semibold">{category.name}</p>
+        {category.description && (
+          <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+            {category.description}
+          </p>
+        )}
       </div>
-    </div>
+
+      <div className="flex items-center justify-between gap-3 pt-1">
+        <span
+          className="rounded-full px-2.5 py-0.5 text-xs font-medium"
+          style={{ backgroundColor: `${color}1a`, color }}
+        >
+          {category.name}
+        </span>
+        <span className="shrink-0 text-xs text-muted-foreground">
+          {category.itemsCount ?? 0} {category.itemsCount === 1 ? 'item' : 'itens'}
+        </span>
+      </div>
+    </Card>
   )
 }

@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -19,6 +20,7 @@ import {
 import { useMutation } from '@apollo/client/react'
 import { CREATE_CATEGORY } from '@/lib/graphql/mutations/Category'
 import { toast } from 'sonner'
+import { IconPicker } from './IconPicker'
 
 interface CreateCategoryDialogProps {
   open: boolean
@@ -32,8 +34,10 @@ export function CreateCategoryDialog({
   onCreated,
 }: CreateCategoryDialogProps) {
   const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
   const [color, setColor] = useState('#6366f1')
+  const [icon, setIcon] = useState('🏷️')
 
   const [createCategory, { loading }] = useMutation(CREATE_CATEGORY, {
     onCompleted() {
@@ -41,8 +45,10 @@ export function CreateCategoryDialog({
       onOpenChange(false)
       onCreated?.()
       setName('')
+      setDescription('')
       setType('expense')
       setColor('#6366f1')
+      setIcon('🏷️')
     },
     onError() {
       toast.error('Falha ao criar a categoria.')
@@ -53,7 +59,7 @@ export function CreateCategoryDialog({
     e.preventDefault()
     createCategory({
       variables: {
-        data: { name, type, color },
+        data: { name, description, type, color, icon },
       },
     })
   }
@@ -78,6 +84,16 @@ export function CreateCategoryDialog({
             />
           </div>
           <div className="space-y-1">
+            <Label htmlFor="cat-description">Descrição</Label>
+            <Textarea
+              id="cat-description"
+              placeholder="Ex: Restaurantes, delivery e refeições"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              disabled={loading}
+            />
+          </div>
+          <div className="space-y-1">
             <Label>Tipo</Label>
             <Select value={type} onValueChange={(v) => setType(v as 'income' | 'expense')}>
               <SelectTrigger>
@@ -88,6 +104,10 @@ export function CreateCategoryDialog({
                 <SelectItem value="expense">Despesa</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="space-y-1">
+            <Label>Ícone</Label>
+            <IconPicker value={icon} onChange={setIcon} disabled={loading} />
           </div>
           <div className="space-y-1">
             <Label htmlFor="cat-color">Cor</Label>
