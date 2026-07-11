@@ -68,24 +68,6 @@ export function CreateCategoryDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-2">
-            <Label>Tipo</Label>
-            <RadioGroup
-                value={type}
-                onValueChange={(v) => setType(v as 'income' | 'expense')}
-                disabled={loading}
-                className="flex flex-row gap-4"
-            >
-              <Label className="flex items-center gap-2 font-normal">
-                <RadioGroupItem value="expense" />
-                Despesa
-              </Label>
-              <Label className="flex items-center gap-2 font-normal">
-                <RadioGroupItem value="income" />
-                Receita
-              </Label>
-            </RadioGroup>
-          </div>
-          <div className="space-y-2">
             <Label htmlFor="cat-name">Nome</Label>
             <Input
               id="cat-name"
