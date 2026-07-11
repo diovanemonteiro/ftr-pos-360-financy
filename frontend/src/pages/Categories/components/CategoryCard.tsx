@@ -15,7 +15,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
   const icons = { Icon: getCategoryIcon(category.icon) }
 
   return (
-    <Card size="sm" className="gap-3 p-4">
+    <Card size="sm" className="gap-5 p-6">
       <div className="flex items-start justify-between">
         <div
           className="flex h-11 w-11 items-center justify-center rounded-lg"
@@ -38,7 +38,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
         </div>
       </div>
 
-      <div>
+      <div className="flex-1">
         <p className="font-semibold">{category.name}</p>
         {category.description && (
           <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
