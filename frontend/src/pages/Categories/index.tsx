@@ -29,44 +29,44 @@ export function Categories() {
 
   return (
     <Page>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-medium text-primary">Categorias</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-2xl font-bold text-gray-800 leading-8">Categorias</h1>
+            <p className="text-base font-normal text-gray-600 leading-6">
               Organize suas transações por categorias
             </p>
           </div>
-          <Button onClick={() => setOpenCreate(true)}>
+          <Button onClick={() => setOpenCreate(true)} className="text-sm font-medium text-white leading-5">
             <Plus className="h-4 w-4" />
             Nova categoria
           </Button>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Card size="sm" className="flex-row items-center gap-3">
-            <Tag className="h-5 w-5 text-muted-foreground" />
-            <div>
-              <p className="text-2xl font-semibold">{categories.length}</p>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+          <Card size="sm" className="flex-row items-start gap-4 p-6">
+            <Tag className="size-6 text-gray-700 mt-2" />
+            <div className="flex flex-col gap-2">
+              <p className="text-2xl font-bold leading-8 text-gray-800">{categories.length}</p>
+              <p className="text-xs uppercase font-medium leading-4 tracking-wider text-gray-500">
                 Total de categorias
               </p>
             </div>
           </Card>
-          <Card size="sm" className="flex-row items-center gap-3">
-            <ArrowUpDown className="h-5 w-5 text-purple-500" />
-            <div>
-              <p className="text-2xl font-semibold">{totalTransactions}</p>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+          <Card size="sm" className="flex-row items-start gap-4 p-6">
+            <ArrowUpDown className="size-6 text-purple-base mt-2" />
+            <div className="flex flex-col gap-2">
+              <p className="text-2xl font-bold leading-8 text-gray-800">{totalTransactions}</p>
+              <p className="text-xs uppercase font-medium leading-4 tracking-wider text-gray-500">
                 Total de transações
               </p>
             </div>
           </Card>
-          <Card size="sm" className="flex-row items-center gap-3">
-            <icons.MostUsed className="h-5 w-5 text-muted-foreground" />
-            <div>
-              <p className="text-2xl font-semibold">{mostUsed?.name || '-'}</p>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+          <Card size="sm" className="flex-row items-start gap-4 p-6">
+            <icons.MostUsed className="size-6 text-red-base mt-2" />
+            <div className="flex flex-col gap-2">
+              <p className="text-2xl font-bold leading-8 text-gray-800">{mostUsed?.name || '-'}</p>
+              <p className="text-xs uppercase font-medium leading-4 tracking-wider text-gray-500">
                 Categoria mais utilizada
               </p>
             </div>
