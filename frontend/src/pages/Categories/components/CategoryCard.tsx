@@ -2,6 +2,7 @@ import { Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import type { Category } from '@/types'
+import { getCategoryIcon } from './categoryIcons'
 
 interface CategoryCardProps {
   category: Category
@@ -11,15 +12,16 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) {
   const color = category.color || '#6366f1'
+  const icons = { Icon: getCategoryIcon(category.icon) }
 
   return (
     <Card size="sm" className="gap-3">
       <div className="flex items-start justify-between">
         <div
-          className="flex h-11 w-11 items-center justify-center rounded-lg text-2xl"
+          className="flex h-11 w-11 items-center justify-center rounded-lg"
           style={{ backgroundColor: `${color}1a` }}
         >
-          {category.icon || '🏷️'}
+          <icons.Icon className="h-5 w-5" style={{ color }} />
         </div>
         <div className="flex gap-1">
           <Button variant="outline" size="icon-sm" onClick={() => onEdit(category)}>
