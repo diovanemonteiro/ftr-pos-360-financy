@@ -1,10 +1,5 @@
 import { cn } from '@/lib/utils'
-
-const ICONS = [
-  '🍜', '🛒', '🚗', '❤️', '🎫', '🐷', '💼', '🎁',
-  '⚡', '📱', '🏠', '✈️', '🎓', '🐾', '☕', '🎮',
-  '💡', '🧾', '💳', '🎵', '📚', '🧴', '🧢', '🎉',
-]
+import { CATEGORY_ICONS } from './categoryIcons'
 
 interface IconPickerProps {
   value: string
@@ -14,21 +9,21 @@ interface IconPickerProps {
 
 export function IconPicker({ value, onChange, disabled }: IconPickerProps) {
   return (
-    <div className="grid grid-cols-8 gap-1.5">
-      {ICONS.map((icon) => (
+    <div className="grid grid-cols-8 gap-2">
+      {CATEGORY_ICONS.map(({ name, icon: Icon }) => (
         <button
-          key={icon}
+          key={name}
           type="button"
           disabled={disabled}
-          onClick={() => onChange(icon)}
+          onClick={() => onChange(name)}
           className={cn(
-            'flex h-9 w-9 items-center justify-center rounded-md border text-lg transition-colors',
-            icon === value
+            'flex size-10.5 items-center justify-center rounded-md border border-gray-300 transition-colors',
+            name === value
               ? 'border-primary bg-primary/10'
               : 'border-input hover:bg-muted'
           )}
         >
-          {icon}
+          <Icon className={cn('size-5', name === value ? 'text-gray-600' : 'text-gray-500')} />
         </button>
       ))}
     </div>
