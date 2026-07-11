@@ -105,7 +105,7 @@ export function Login() {
                         </div>
                         <Button
                             type="submit"
-                            size="xl"
+                            size="md"
                             className="w-full"
                             disabled={loading}
                         >
@@ -126,7 +126,7 @@ export function Login() {
                     </p>
 
                     <Button
-                        size="xl"
+                        size="md"
                         variant="outline"
                         className="w-full"
                         render={<Link to="/register" />}

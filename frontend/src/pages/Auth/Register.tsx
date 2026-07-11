@@ -107,7 +107,7 @@ export function Register() {
                         </div>
                         <Button
                             type="submit"
-                            size="xl"
+                            size="md"
                             className="w-full"
                             disabled={loading}
                         >
@@ -129,7 +129,7 @@ export function Register() {
 
                     <Button
                         variant="outline"
-                        size="xl"
+                        size="md"
                         className="w-full"
                         render={<Link to="/login" />}
                         nativeButton={false}
