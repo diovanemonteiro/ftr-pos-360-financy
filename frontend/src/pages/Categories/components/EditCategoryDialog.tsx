@@ -23,6 +23,7 @@ import { toast } from 'sonner'
 import type { Category } from '@/types'
 import { IconPicker } from './IconPicker'
 import { ColorPicker } from './ColorPicker'
+import { DEFAULT_CATEGORY_ICON } from './categoryIcons'
 
 interface EditCategoryDialogProps {
   open: boolean
@@ -41,7 +42,7 @@ export function EditCategoryDialog({
   const [description, setDescription] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
   const [color, setColor] = useState('#6366f1')
-  const [icon, setIcon] = useState('🏷️')
+  const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON)
 
   useEffect(() => {
     if (category) {
@@ -49,7 +50,7 @@ export function EditCategoryDialog({
       setDescription(category.description || '')
       setType(category.type)
       setColor(category.color || '#6366f1')
-      setIcon(category.icon || '🏷️')
+      setIcon(category.icon || DEFAULT_CATEGORY_ICON)
     }
   }, [category])
 
