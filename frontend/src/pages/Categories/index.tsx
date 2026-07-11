@@ -10,6 +10,7 @@ import { CategoryCard } from './components/CategoryCard'
 import { CreateCategoryDialog } from './components/CreateCategoryDialog'
 import { EditCategoryDialog } from './components/EditCategoryDialog'
 import { DeleteCategoryDialog } from './components/DeleteCategoryDialog'
+import { getCategoryIcon } from './components/categoryIcons'
 
 export function Categories() {
   const [openCreate, setOpenCreate] = useState(false)
@@ -24,6 +25,7 @@ export function Categories() {
     if (!top || (c.itemsCount ?? 0) > (top.itemsCount ?? 0)) return c
     return top
   }, null)
+  const icons = { MostUsed: getCategoryIcon(mostUsed?.icon) }
 
   return (
     <Page>
@@ -61,7 +63,7 @@ export function Categories() {
             </div>
           </Card>
           <Card size="sm" className="flex-row items-center gap-3">
-            <span className="text-xl">{mostUsed?.icon || '🏷️'}</span>
+            <icons.MostUsed className="h-5 w-5 text-muted-foreground" />
             <div>
               <p className="text-2xl font-semibold">{mostUsed?.name || '-'}</p>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">
