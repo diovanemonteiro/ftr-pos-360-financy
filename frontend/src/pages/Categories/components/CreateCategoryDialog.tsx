@@ -63,8 +63,12 @@ export function CreateCategoryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Nova categoria</DialogTitle>
-          <DialogDescription>Crie uma nova categoria para organizar suas transações</DialogDescription>
+          <DialogTitle className="text-base font-semibold leading-6 text-gray-800">
+            Nova categoria
+          </DialogTitle>
+          <DialogDescription className="text-sm font-normal leading-5 text-gray-600">
+            Crie uma nova categoria para organizar suas transações
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-2">
