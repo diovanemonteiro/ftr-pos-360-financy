@@ -92,7 +92,7 @@ export function CreateTransactionDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader>
+        <DialogHeader className="gap-0.5">
           <DialogTitle className="text-base font-semibold leading-6 text-gray-800">
             Nova transação
           </DialogTitle>
