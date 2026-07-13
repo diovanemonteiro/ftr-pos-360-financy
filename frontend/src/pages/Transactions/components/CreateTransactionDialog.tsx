@@ -22,6 +22,8 @@ import { CREATE_TRANSACTION } from '@/lib/graphql/mutations/Transaction.ts'
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/Category.ts'
 import { toast } from 'sonner'
 import type { Category } from '@/types'
+import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
+import { cn } from '@/lib/utils.ts'
 
 interface CreateTransactionDialogProps {
   open: boolean
@@ -89,13 +91,49 @@ export function CreateTransactionDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Nova transação</DialogTitle>
-          <DialogDescription>Preencha os dados da transação</DialogDescription>
+          <DialogTitle className="text-base font-semibold leading-6 text-gray-800">
+            Nova transação
+          </DialogTitle>
+          <DialogDescription className="text-sm font-normal leading-5 text-gray-600">
+            Registre sua despesa ou receita
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-          <div className="space-y-1">
+          <div className="space-y-2 rounded-md border border-gray-200 p-2">
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => { setType('expense'); setCategoryId('') }}
+                className={cn(
+                  'flex items-center justify-center gap-2 rounded-md border px-3 py-3 text-sm font-medium transition-colors',
+                  type === 'expense'
+                    ? 'border-destructive bg-destructive/10 text-destructive'
+                    : 'border-input text-muted-foreground hover:bg-muted'
+                )}
+              >
+                <ArrowDownCircle className="h-4 w-4" />
+                Despesa
+              </button>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => { setType('income'); setCategoryId('') }}
+                className={cn(
+                  'flex items-center justify-center gap-2 rounded-md border px-3 py-3 text-sm font-medium transition-colors',
+                  type === 'income'
+                    ? 'border-emerald-600 bg-emerald-600/10 text-emerald-600'
+                    : 'border-input text-muted-foreground hover:bg-muted'
+                )}
+              >
+                <ArrowUpCircle className="h-4 w-4" />
+                Receita
+              </button>
+            </div>
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="title">Título</Label>
             <Input
               id="title"
@@ -107,7 +145,7 @@ export function CreateTransactionDialog({
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="amount">Valor (R$)</Label>
               <Input
                 id="amount"
@@ -121,7 +159,7 @@ export function CreateTransactionDialog({
                 disabled={loading}
               />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="date">Data</Label>
               <Input
                 id="date"
@@ -133,25 +171,13 @@ export function CreateTransactionDialog({
               />
             </div>
           </div>
-          <div className="space-y-1">
-            <Label>Tipo</Label>
-            <Select value={type} onValueChange={(v) => { setType(v as 'income' | 'expense'); setCategoryId('') }}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="income">Receita</SelectItem>
-                <SelectItem value="expense">Despesa</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Label>Categoria</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
-              <SelectTrigger>
+              <SelectTrigger size="md" className="w-full">
                 <SelectValue placeholder="Selecione uma categoria" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent alignItemWithTrigger={false}>
                 {filteredCategories.length === 0 ? (
                   <div className="px-2 py-4 text-sm text-muted-foreground text-center">
                     Nenhuma categoria de {type === 'income' ? 'receita' : 'despesa'}
@@ -166,7 +192,7 @@ export function CreateTransactionDialog({
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Label htmlFor="description">Descrição (opcional)</Label>
             <Textarea
               id="description"
@@ -179,10 +205,12 @@ export function CreateTransactionDialog({
             />
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
-            <Button type="submit" disabled={loading}>
+            <Button
+                type="submit"
+                size="md"
+                className="w-full"
+                disabled={loading}
+            >
               {loading ? 'Salvando...' : 'Salvar'}
             </Button>
           </div>
