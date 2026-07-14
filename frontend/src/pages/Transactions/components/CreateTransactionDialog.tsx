@@ -173,22 +173,27 @@ export function CreateTransactionDialog({
           </div>
           <div className="space-y-2">
             <Label>Categoria</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
+            <Select
+                items={filteredCategories}
+                value={categoryId}
+                onValueChange={setCategoryId}
+            >
               <SelectTrigger size="md" className="w-full">
-                <SelectValue placeholder="Selecione uma categoria" />
+                <SelectValue
+                    placeholder="Selecione uma categoria"
+                    className="text-base fonte-normal leading-4.5 text-gray-800"
+                />
               </SelectTrigger>
               <SelectContent alignItemWithTrigger={false}>
-                {filteredCategories.length === 0 ? (
-                  <div className="px-2 py-4 text-sm text-muted-foreground text-center">
-                    Nenhuma categoria de {type === 'income' ? 'receita' : 'despesa'}
-                  </div>
-                ) : (
-                  filteredCategories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </SelectItem>
-                  ))
-                )}
+                {filteredCategories.map((cat) => (
+                <SelectItem
+                    key={cat.id}
+                    value={cat.id}
+                    className="px-3 py-2 text-base fonte-normal leading-4.5 text-gray-800"
+                >
+                  {cat.name}
+                </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
