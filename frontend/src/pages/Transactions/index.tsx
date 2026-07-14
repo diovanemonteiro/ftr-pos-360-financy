@@ -81,8 +81,8 @@ export function Transactions() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Transações</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-2xl font-bold text-gray-800 leading-8">Transações</h1>
+            <p className="text-base font-normal text-gray-600 leading-6">
               Gerencie todas as suas transações financeiras
             </p>
           </div>
@@ -93,8 +93,8 @@ export function Transactions() {
         </div>
 
         <div className="grid gap-4 rounded-xl border bg-card p-6 md:grid-cols-4">
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Buscar</Label>
+          <div className="space-y-2">
+            <Label>Buscar</Label>
             <div className="relative">
               <Search className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -107,16 +107,16 @@ export function Transactions() {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Tipo</Label>
+            <Label>Tipo</Label>
             <Select value={typeFilter} onValueChange={updateFilter(setTypeFilter)}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger size="md" className="w-full">
                 <SelectValue>
                   {(value: string) =>
                     ({ all: 'Todos', income: 'Receita', expense: 'Despesa' })[value]
                   }
                 </SelectValue>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent alignItemWithTrigger={false}>
                 <SelectItem value="all">Todos</SelectItem>
                 <SelectItem value="income">Receita</SelectItem>
                 <SelectItem value="expense">Despesa</SelectItem>
@@ -125,9 +125,12 @@ export function Transactions() {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Categoria</Label>
-            <Select value={categoryFilter} onValueChange={updateFilter(setCategoryFilter)}>
-              <SelectTrigger className="w-full">
+            <Label>Categoria</Label>
+            <Select
+                value={categoryFilter}
+                onValueChange={updateFilter(setCategoryFilter)}
+            >
+              <SelectTrigger size="md" className="w-full">
                 <SelectValue>
                   {(value: string) =>
                     value === 'all'
@@ -136,10 +139,13 @@ export function Transactions() {
                   }
                 </SelectValue>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent alignItemWithTrigger={false}>
                 <SelectItem value="all">Todas</SelectItem>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
+                  <SelectItem
+                      key={category.id}
+                      value={category.id}
+                  >
                     {category.name}
                   </SelectItem>
                 ))}
@@ -148,14 +154,14 @@ export function Transactions() {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Período</Label>
+            <Label>Período</Label>
             <Select value={periodFilter} onValueChange={updateFilter(setPeriodFilter)}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger size="md" className="w-full">
                 <SelectValue>
                   {(value: string) => (value === 'all' ? 'Todos os períodos' : periodLabel(value))}
                 </SelectValue>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent alignItemWithTrigger={false}>
                 <SelectItem value="all">Todos os períodos</SelectItem>
                 {periods.map((key) => (
                   <SelectItem key={key} value={key}>
