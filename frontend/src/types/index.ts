@@ -34,11 +34,9 @@ export interface Category {
 
 export interface Transaction {
   id: string
-  title: string
-  amount: number
   type: TransactionType
-  date: string
-  description?: string | null
+  description: string
+  amount: number
   userId: string
   categoryId: string
   category?: Category
