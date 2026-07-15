@@ -134,7 +134,14 @@ export function EditTransactionDialog({
           </div>
           <div className="space-y-1">
             <Label>Tipo</Label>
-            <Select value={type} onValueChange={(v) => { setType(v as 'income' | 'expense'); setCategoryId('') }}>
+            <Select
+                items={[
+                  { value: 'income', label: 'Receita' },
+                  { value: 'expense', label: 'Despesa' },
+                ]}
+                value={type}
+                onValueChange={(v) => { setType(v as 'income' | 'expense'); setCategoryId('') }}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -146,7 +153,11 @@ export function EditTransactionDialog({
           </div>
           <div className="space-y-1">
             <Label>Categoria</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
+            <Select
+                items={filteredCategories.map((cat) => ({ value: cat.id, label: cat.name }))}
+                value={categoryId}
+                onValueChange={setCategoryId}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Selecione uma categoria" />
               </SelectTrigger>
