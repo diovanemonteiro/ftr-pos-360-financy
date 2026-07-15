@@ -2,7 +2,7 @@ import { Briefcase, Fuel, PiggyBank, ShoppingCart, Tag, UtensilsCrossed } from '
 import type { Transaction } from '@/types'
 
 export function getTransactionIcon(transaction: Transaction) {
-  const title = transaction.title.toLowerCase()
+  const title = transaction.category.name.toLowerCase()
   if (title.includes('salário') || title.includes('salario')) return Briefcase
   if (title.includes('restaurante') || title.includes('jantar') || title.includes('almoço'))
     return UtensilsCrossed
