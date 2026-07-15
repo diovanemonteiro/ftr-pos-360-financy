@@ -32,7 +32,7 @@ export function RecentTransactionRow({
         </div>
         <div className="min-w-0">
           <p className="truncate text-sm font-medium">{transaction.title}</p>
-          <p className="text-xs text-muted-foreground">{formatDate(transaction.date)}</p>
+          <p className="text-xs text-muted-foreground">{formatDate(transaction.createdAt)}</p>
         </div>
       </div>
 

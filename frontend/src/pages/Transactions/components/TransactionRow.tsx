@@ -24,10 +24,10 @@ export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRow
         >
           <Icon className="h-5 w-5" style={{ color }} />
         </div>
-        <p className="truncate text-sm font-medium">{transaction.title}</p>
+        <p className="truncate text-sm font-medium">{transaction.description}</p>
       </div>
 
-      <p className="text-sm text-muted-foreground">{formatDate(transaction.date)}</p>
+      <p className="text-sm text-muted-foreground">{formatDate(transaction.createdAt)}</p>
 
       <div>
         <span
