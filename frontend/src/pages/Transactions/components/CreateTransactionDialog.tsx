@@ -36,12 +36,11 @@ export function CreateTransactionDialog({
   onOpenChange,
   onCreated,
 }: CreateTransactionDialogProps) {
-  const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
   const [description, setDescription] = useState('')
+  const [amount, setAmount] = useState('')
   const [categoryId, setCategoryId] = useState('')
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
 
   const { data: categoriesData } = useQuery<{ listCategories: Category[] }>(LIST_CATEGORIES)
   const categories = categoriesData?.listCategories || []
@@ -59,12 +58,11 @@ export function CreateTransactionDialog({
   })
 
   const resetForm = () => {
-    setTitle('')
-    setAmount('')
     setType('expense')
-    setDate(new Date().toISOString().split('T')[0])
     setDescription('')
     setCategoryId('')
+    setAmount('')
+    setDate(new Date().toISOString().split('T')[0])
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,11 +74,10 @@ export function CreateTransactionDialog({
     createTransaction({
       variables: {
         data: {
-          title,
+          description,
           amount: parseFloat(amount),
           type,
           date,
-          description: description || undefined,
           categoryId,
         },
       },
@@ -100,7 +97,7 @@ export function CreateTransactionDialog({
             Registre sua despesa ou receita
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2 rounded-md border border-gray-200 p-2">
             <div className="grid grid-cols-2 gap-3">
               <button
@@ -133,81 +130,71 @@ export function CreateTransactionDialog({
               </button>
             </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="title">Título</Label>
-            <Input
-              id="title"
-              placeholder="Ex: Salário, Supermercado..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="amount">Valor (R$)</Label>
+              <Label htmlFor="description">Descrição</Label>
               <Input
-                id="amount"
-                type="number"
-                min="0.01"
-                step="0.01"
-                placeholder="0,00"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                id="description"
+                placeholder="Ex: Salário, Supermercado..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 required
                 disabled={loading}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="date">Data</Label>
-              <Input
-                id="date"
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-                disabled={loading}
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label>Categoria</Label>
-            <Select
-                items={filteredCategories}
-                value={categoryId}
-                onValueChange={setCategoryId}
-            >
-              <SelectTrigger size="md" className="w-full">
-                <SelectValue
-                    placeholder="Selecione uma categoria"
-                    className="text-base fonte-normal leading-4.5 text-gray-800"
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="amount">Valor (R$)</Label>
+                <Input
+                  id="amount"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="0,00"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  required
+                  disabled={loading}
                 />
-              </SelectTrigger>
-              <SelectContent alignItemWithTrigger={false}>
-                {filteredCategories.map((cat) => (
-                <SelectItem
-                    key={cat.id}
-                    value={cat.id}
-                    className="px-3 py-2 text-base fonte-normal leading-4.5 text-gray-800"
-                >
-                  {cat.name}
-                </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Descrição (opcional)</Label>
-            <Textarea
-              id="description"
-              placeholder="Adicione uma observação..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              className="resize-none"
-              disabled={loading}
-            />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="date">Data</Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
+                  disabled={loading}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Categoria</Label>
+              <Select
+                  items={filteredCategories.map((cat) => ({ value: cat.id, label: cat.name }))}
+                  value={categoryId}
+                  onValueChange={setCategoryId}
+              >
+                <SelectTrigger size="md" className="w-full">
+                  <SelectValue
+                      placeholder="Selecione uma categoria"
+                      className="text-base fonte-normal leading-4.5 text-gray-800"
+                  />
+                </SelectTrigger>
+                <SelectContent alignItemWithTrigger={false}>
+                  {filteredCategories.map((cat) => (
+                  <SelectItem
+                      key={cat.id}
+                      value={cat.id}
+                      className="px-3 py-2 text-base fonte-normal leading-4.5 text-gray-800"
+                  >
+                    {cat.name}
+                  </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button
