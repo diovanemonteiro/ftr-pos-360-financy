@@ -8,20 +8,14 @@ export class TransactionModel {
   @Field(() => ID)
   id!: string
 
-  @Field(() => String)
-  title!: string
-
-  @Field(() => Float)
-  amount!: number
-
   @Field(() => TransactionType)
   type!: TransactionType
 
-  @Field(() => GraphQLISODateTime)
-  date!: Date
+  @Field(() => String)
+  description!: string
 
-  @Field(() => String, { nullable: true })
-  description?: string
+  @Field(() => Float)
+  amount!: number
 
   @Field(() => String)
   userId!: string

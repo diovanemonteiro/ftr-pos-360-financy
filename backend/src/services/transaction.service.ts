@@ -5,11 +5,9 @@ export class TransactionService {
   async createTransaction(data: CreateTransactionInput, userId: string) {
     return prismaClient.transaction.create({
       data: {
-        title: data.title,
-        amount: data.amount,
         type: data.type,
-        date: new Date(data.date),
         description: data.description,
+        amount: data.amount,
         userId,
         categoryId: data.categoryId,
       },
@@ -19,7 +17,7 @@ export class TransactionService {
   async listTransactions(userId: string) {
     return prismaClient.transaction.findMany({
       where: { userId },
-      orderBy: { date: 'desc' },
+      orderBy: { id: 'desc' },
     })
   }
 
@@ -36,11 +34,9 @@ export class TransactionService {
     return prismaClient.transaction.update({
       where: { id },
       data: {
-        title: data.title,
-        amount: data.amount,
         type: data.type,
-        date: data.date ? new Date(data.date) : undefined,
         description: data.description,
+        amount: data.amount,
         categoryId: data.categoryId,
       },
     })
