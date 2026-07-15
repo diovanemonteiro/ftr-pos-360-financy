@@ -54,17 +54,17 @@ export function Transactions() {
   const categories = categoriesData?.listCategories || []
 
   const periods = useMemo(() => {
-    const keys = new Set(transactions.map((t) => periodKey(t.date)))
+    const keys = new Set(transactions.map((t) => periodKey(t.createdAt)))
     return Array.from(keys).sort((a, b) => (a < b ? 1 : -1))
   }, [transactions])
 
   const filtered = useMemo(() => {
     return transactions
-      .filter((t) => t.title.toLowerCase().includes(search.toLowerCase()))
+      .filter((t) => t.description.toLowerCase().includes(search.toLowerCase()))
       .filter((t) => typeFilter === 'all' || t.type === typeFilter)
       .filter((t) => categoryFilter === 'all' || t.categoryId === categoryFilter)
-      .filter((t) => periodFilter === 'all' || periodKey(t.date) === periodFilter)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .filter((t) => periodFilter === 'all' || periodKey(t.createdAt) === periodFilter)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
   }, [transactions, search, typeFilter, categoryFilter, periodFilter])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
