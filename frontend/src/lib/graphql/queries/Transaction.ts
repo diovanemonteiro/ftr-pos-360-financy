@@ -4,11 +4,9 @@ export const LIST_TRANSACTIONS = gql`
   query ListTransactions {
     listTransactions {
       id
-      title
-      amount
       type
-      date
       description
+      amount
       userId
       categoryId
       category {
