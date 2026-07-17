@@ -59,36 +59,42 @@ export function Dashboard() {
       <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-3">
           <Card>
-            <CardContent className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                <Wallet className="h-4 w-4 text-purple-base" />
+            <CardContent className="flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                <Wallet className="size-5 text-purple-base" />
                 Saldo total
               </div>
-              <p className="text-2xl font-bold">{formatCurrency(balance)}</p>
+              <p className="text-3xl font-bold leading-6 text-gray-800">
+                {formatCurrency(balance)}
+              </p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                <ArrowUpCircle className="h-4 w-4 text-green-600" />
+            <CardContent className="flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                <ArrowUpCircle className="size-5 text-green-600" />
                 Receitas do mês
               </div>
-              <p className="text-2xl font-bold">{formatCurrency(totalIncome)}</p>
+              <p className="text-3xl font-bold leading-6 text-gray-800">
+                {formatCurrency(totalIncome)}
+              </p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                <ArrowDownCircle className="h-4 w-4 text-red-500" />
+            <CardContent className="flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                <ArrowDownCircle className="size-5 text-red-500" />
                 Despesas do mês
               </div>
-              <p className="text-2xl font-bold">{formatCurrency(totalExpense)}</p>
+              <p className="text-3xl font-bold leading-6 text-gray-800">
+                {formatCurrency(totalExpense)}
+              </p>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card className="md:col-span-2">
+        <div className="flex flex-col sm:flex-row items-start gap-6">
+          <Card className="flex-1">
             <CardHeader className="flex flex-row items-center justify-between border-b">
               <CardTitle className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                 Transações recentes
@@ -133,20 +139,20 @@ export function Dashboard() {
             </CardFooter>
           </Card>
 
-          <Card>
+          <Card className="w-95 flex-none rounded-lg">
             <CardHeader className="flex flex-row items-center justify-between border-b">
-              <CardTitle className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+              <CardTitle className="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase">
                 Categorias
               </CardTitle>
               <Link
                 to="/categories"
-                className="flex items-center gap-1 text-sm font-medium text-primary"
+                className="flex items-center gap-1 text-primary"
               >
-                Gerenciar
-                <ChevronRight className="h-4 w-4" />
+                <span className="text-sm font-medium leading-5">Gerenciar</span>
+                <ChevronRight className="size-5 mt-0.5" />
               </Link>
             </CardHeader>
-            <CardContent className="divide-y">
+            <CardContent className="space-y-5">
               {loadingCategories &&
                 Array.from({ length: 4 }).map((_, i) => (
                   <div
