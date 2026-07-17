@@ -2,6 +2,7 @@ import { Pencil, TrashIcon, SquarePenIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import type { Category } from '@/types'
+import { CategoryBadge } from './CategoryBadge'
 import { getCategoryIcon } from './categoryIcons'
 
 interface CategoryCardProps {
@@ -54,12 +55,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
       </div>
 
       <div className="flex items-center justify-between gap-3">
-        <span
-          className="rounded-full px-3 py-1 text-sm font-medium leading-5"
-          style={{ backgroundColor: `${color}1a`, color }}
-        >
-          {category.name}
-        </span>
+        <CategoryBadge name={category.name} color={color} />
         <span className="shrink-0 text-sm font-normal leading-5 text-gray-600">
           {category.itemsCount ?? 0} {category.itemsCount === 1 ? 'item' : 'itens'}
         </span>
