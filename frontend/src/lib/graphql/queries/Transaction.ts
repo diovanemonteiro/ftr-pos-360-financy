@@ -12,8 +12,9 @@ export const LIST_TRANSACTIONS = gql`
       category {
         id
         name
-        color
         type
+        icon
+        color
       }
       createdAt
       updatedAt
