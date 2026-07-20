@@ -79,6 +79,7 @@ export function Transactions() {
   return (
     <Page>
       <div className="space-y-6">
+
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-800 leading-8">Transações</h1>
@@ -106,7 +107,7 @@ export function Transactions() {
             </div>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <Label>Tipo</Label>
             <Select value={typeFilter} onValueChange={updateFilter(setTypeFilter)}>
               <SelectTrigger size="md" className="w-full">
@@ -124,7 +125,7 @@ export function Transactions() {
             </Select>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <Label>Categoria</Label>
             <Select
                 value={categoryFilter}
@@ -153,7 +154,7 @@ export function Transactions() {
             </Select>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <Label>Período</Label>
             <Select value={periodFilter} onValueChange={updateFilter(setPeriodFilter)}>
               <SelectTrigger size="md" className="w-full">
@@ -174,7 +175,7 @@ export function Transactions() {
         </div>
 
         <div className="rounded-xl border bg-card">
-          <div className="grid grid-cols-[1.6fr_0.7fr_0.8fr_0.7fr_0.9fr_0.8fr] gap-4 border-b px-6 py-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+          <div className="grid grid-cols-[1.6fr_0.7fr_0.8fr_0.7fr_0.9fr_0.8fr] gap-4 border-b px-6 py-5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
             <span>Descrição</span>
             <span>Data</span>
             <span>Categoria</span>

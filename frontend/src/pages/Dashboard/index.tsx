@@ -58,7 +58,7 @@ export function Dashboard() {
     <Page>
       <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-3">
-          <Card>
+          <Card className="rounded-lg">
             <CardContent className="flex flex-col gap-4">
               <div className="flex items-center gap-2 text-xs font-medium tracking-wider text-gray-500 uppercase">
                 <Wallet className="size-5 text-purple-base" />
@@ -69,7 +69,7 @@ export function Dashboard() {
               </p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="rounded-lg">
             <CardContent className="flex flex-col gap-4">
               <div className="flex items-center gap-2 text-xs font-medium tracking-wider text-gray-500 uppercase">
                 <ArrowUpCircle className="size-5 text-green-600" />
@@ -80,7 +80,7 @@ export function Dashboard() {
               </p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="rounded-lg">
             <CardContent className="flex flex-col gap-4">
               <div className="flex items-center gap-2 text-xs font-medium tracking-wider text-gray-500 uppercase">
                 <ArrowDownCircle className="size-5 text-red-500" />
@@ -93,89 +93,103 @@ export function Dashboard() {
           </Card>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start gap-6">
-          <Card className="flex-1">
-            <CardHeader className="flex flex-row items-center justify-between border-b">
-              <CardTitle className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                Transações recentes
-              </CardTitle>
-              <span className="flex items-center gap-1 text-sm font-medium text-primary">
-                Ver todas
-                <ChevronRight className="h-4 w-4" />
-              </span>
-            </CardHeader>
-            <CardContent className="divide-y">
-              {loading &&
-                Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={`skeleton-transaction-${i}`}
-                    className="h-16 animate-pulse rounded-lg bg-muted/50"
-                  />
-                ))}
-              {!loading && recentTransactions.length === 0 && (
-                <p className="py-8 text-center text-sm text-muted-foreground">
-                  Nenhuma transação encontrada
-                </p>
-              )}
-              {!loading &&
-                recentTransactions.map((transaction) => (
-                  <RecentTransactionRow
-                    key={transaction.id}
-                    transaction={transaction}
-                    onEdit={setEditTarget}
-                    onDelete={setDeleteTarget}
-                  />
-                ))}
-            </CardContent>
-            <CardFooter className="justify-center border-t">
-              <button
-                type="button"
-                className="flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-                onClick={() => setOpenCreate(true)}
-              >
-                <Plus className="h-4 w-4" />
-                Nova transação
-              </button>
-            </CardFooter>
-          </Card>
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <Card size="none" className="rounded-lg">
 
-          <Card className="w-95 flex-none rounded-lg">
-            <CardHeader className="flex flex-row items-center justify-between border-b">
-              <CardTitle className="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase">
-                Categorias
-              </CardTitle>
-              <Link
-                to="/categories"
-                className="flex items-center gap-1 text-primary"
-              >
-                <span className="text-sm font-medium leading-5">Gerenciar</span>
-                <ChevronRight className="size-5 mt-0.5" />
-              </Link>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              {loadingCategories &&
-                Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={`skeleton-category-${i}`}
-                    className="h-10 animate-pulse rounded-lg bg-muted/50"
-                  />
-                ))}
-              {!loadingCategories && categorySummaries.length === 0 && (
-                <p className="py-8 text-center text-sm text-muted-foreground">
-                  Nenhuma categoria com transações
-                </p>
-              )}
-              {!loadingCategories &&
-                categorySummaries.map(({ category, itemsCount, total }) => (
-                  <CategorySummaryRow
-                    key={category.id}
-                    category={category}
-                    itemsCount={itemsCount}
-                    total={total}
-                  />
-                ))}
-            </CardContent>
-          </Card>
+              <CardHeader className="flex items-center justify-between border-b pl-6 pr-3 py-5!">
+                <CardTitle className="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase">
+                  Transações recentes
+                </CardTitle>
+                <Link
+                    to="/transactions"
+                    className="flex items-center gap-1 text-primary"
+                >
+                <span className="text-sm font-medium leading-5">
+                  Ver todas
+                </span>
+                  <ChevronRight className="size-5 mt-0.5" />
+                </Link>
+              </CardHeader>
+
+              <CardContent className="divide-y">
+                {loading &&
+                    Array.from({ length: 4 }).map((_, i) => (
+                        <div
+                            key={`skeleton-transaction-${i}`}
+                            className="h-16 animate-pulse rounded-lg bg-muted/50"
+                        />
+                    ))}
+                {!loading && recentTransactions.length === 0 && (
+                    <p className="py-8 text-center text-sm text-muted-foreground">
+                      Nenhuma transação encontrada
+                    </p>
+                )}
+                {!loading &&
+                    recentTransactions.map((transaction) => (
+                        <RecentTransactionRow
+                            key={transaction.id}
+                            transaction={transaction}
+                            onEdit={setEditTarget}
+                            onDelete={setDeleteTarget}
+                        />
+                    ))}
+              </CardContent>
+
+              <CardFooter className="flex items-center justify-center gap-2 border-t py-5!">
+                <button
+                    type="button"
+                    className="flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                    onClick={() => setOpenCreate(true)}
+                >
+                  <Plus className="size-5" />
+                  <span className="text-sm font-medium leading-5 text-primary">
+                  Nova transação
+                </span>
+                </button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div>
+            <Card size="none" className="rounded-lg">
+              <CardHeader className="flex flex-row items-center justify-between border-b pl-6 pr-3 py-5!">
+                <CardTitle className="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase">
+                  Categorias
+                </CardTitle>
+                <Link
+                    to="/categories"
+                    className="flex items-center gap-1 text-primary"
+                >
+                  <span className="text-sm font-medium leading-5">Gerenciar</span>
+                  <ChevronRight className="size-5 mt-0.5" />
+                </Link>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-5 p-6">
+                {loadingCategories &&
+                    Array.from({ length: 4 }).map((_, i) => (
+                        <div
+                            key={`skeleton-category-${i}`}
+                            className="h-10 animate-pulse rounded-lg bg-muted/50"
+                        />
+                    ))}
+                {!loadingCategories && categorySummaries.length === 0 && (
+                    <p className="py-8 text-center text-sm text-muted-foreground">
+                      Nenhuma categoria com transações
+                    </p>
+                )}
+                {!loadingCategories &&
+                    categorySummaries.map(({ category, itemsCount, total }) => (
+                        <CategorySummaryRow
+                            key={category.id}
+                            category={category}
+                            itemsCount={itemsCount}
+                            total={total}
+                        />
+                    ))}
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 

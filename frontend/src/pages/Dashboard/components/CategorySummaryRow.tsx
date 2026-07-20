@@ -12,7 +12,7 @@ export function CategorySummaryRow({ category, itemsCount, total }: CategorySumm
   const color = category.color || '#6B7280'
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 h-7">
 
         <div className="w-27 flex-1">
             {/*<span*/}
