@@ -175,7 +175,7 @@ export function Transactions() {
         </div>
 
         <div className="rounded-xl border bg-card">
-          <div className="grid grid-cols-[1.6fr_0.7fr_0.8fr_0.7fr_0.9fr_0.8fr] gap-4 border-b px-6 py-5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+          <div className="grid grid-cols-[1.6fr_0.7fr_0.8fr_0.7fr_0.9fr_0.8fr] gap-4 border-b px-6 py-5 text-xs font-semibold leading-4 tracking-wider text-gray-500 uppercase">
             <span>Descrição</span>
             <span>Data</span>
             <span>Categoria</span>
