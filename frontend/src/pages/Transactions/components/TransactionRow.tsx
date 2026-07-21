@@ -1,7 +1,6 @@
-import { ArrowDownCircle, ArrowUpCircle, Pencil, Trash2 } from 'lucide-react'
+import { ArrowDownCircle, ArrowUpCircle, Trash2, SquarePenIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
-import { getTransactionIcon } from '@/lib/transaction-icon'
 import type { Transaction } from '@/types'
 import {CategoryBadge} from "@/pages/Categories/components/CategoryBadge.tsx";
 import {getCategoryIcon} from "@/pages/Categories/components/categoryIcons.ts";
@@ -71,7 +70,7 @@ export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRow
             onClick={() => onEdit(transaction)}
             className="text-gray-700 border-gray-300 hover:text-gray-700 hover:bg-gray-200"
         >
-          <Pencil className="size-4" />
+          <SquarePenIcon className="size-4" />
         </Button>
       </div>
     </div>
