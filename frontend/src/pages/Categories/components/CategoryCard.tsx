@@ -28,7 +28,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
           <Button
               variant="outline"
               size="icon-sm"
-              className="text-destructive hover:bg-destructive/10"
+              className="border-gray-300 text-destructive hover:bg-gray-200 hover:text-destructive"
               onClick={() => onDelete(category)}
           >
             <TrashIcon className="size-4" />
@@ -36,6 +36,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
           <Button
               variant="outline"
               size="icon-sm"
+              className="text-gray-700 border-gray-300 hover:text-gray-700 hover:bg-gray-200"
               onClick={() => onEdit(category)}
           >
             <SquarePenIcon className="size-4" />
