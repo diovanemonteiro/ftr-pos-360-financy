@@ -9,7 +9,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Field, FieldLabel, FieldDescription } from '@/components/ui/field'
 import { useMutation } from '@apollo/client/react'
 import { CREATE_CATEGORY } from '@/lib/graphql/mutations/Category'
 import { toast } from 'sonner'
@@ -70,28 +70,31 @@ export function CreateCategoryDialog({
             Crie uma nova categoria para organizar suas transações
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="cat-name">Nome</Label>
             <Input
               id="cat-name"
-              placeholder="Ex: Alimentação, Salário..."
+              placeholder="Ex: Alimentação"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               disabled={loading}
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="cat-description">Descrição</Label>
+
+          <Field className="gap-2">
+            <FieldLabel htmlFor="cat-description">Descrição</FieldLabel>
             <Input
-              id="cat-description"
-              placeholder="Ex: Restaurantes, delivery e refeições"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              disabled={loading}
+                id="cat-description"
+                placeholder="Descriçao da categoria"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                disabled={loading}
             />
-          </div>
+            <FieldDescription className="text-xs leading-4 text-gray-500">Opcional</FieldDescription>
+          </Field>
+
           <div className="space-y-1">
             <Label>Ícone</Label>
             <IconPicker value={icon} onChange={setIcon} disabled={loading} />

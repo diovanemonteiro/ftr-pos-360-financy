@@ -24,6 +24,7 @@ import type { Category } from '@/types'
 import { IconPicker } from './IconPicker'
 import { ColorPicker } from './ColorPicker'
 import { DEFAULT_CATEGORY_ICON } from './categoryIcons'
+import {Field, FieldDescription, FieldLabel} from "@/components/ui/field.tsx";
 
 interface EditCategoryDialogProps {
   open: boolean
@@ -79,42 +80,37 @@ export function EditCategoryDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Editar categoria</DialogTitle>
-          <DialogDescription>Atualize os dados da categoria</DialogDescription>
+        <DialogHeader className="gap-0.5">
+          <DialogTitle className="text-base font-semibold leading-6 text-gray-800">
+            Editar categoria
+          </DialogTitle>
+          <DialogDescription className="text-sm font-normal leading-5 text-gray-600">
+            Atualize os dados da categoria
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-          <div className="space-y-1">
-            <Label htmlFor="edit-cat-name">Nome</Label>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="cat-name">Nome</Label>
             <Input
-              id="edit-cat-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              disabled={loading}
+                id="cat-name"
+                placeholder="Ex: Alimentação, Salário..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                disabled={loading}
             />
           </div>
-          <div className="space-y-1">
-            <Label htmlFor="edit-cat-description">Descrição</Label>
-            <Textarea
-              id="edit-cat-description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              disabled={loading}
+          <Field className="gap-2">
+            <FieldLabel htmlFor="cat-description">Descrição</FieldLabel>
+            <Input
+                id="cat-description"
+                placeholder="Descriçao da categoria"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                disabled={loading}
             />
-          </div>
-          <div className="space-y-1">
-            <Label>Tipo</Label>
-            <Select value={type} onValueChange={(v) => setType(v as 'income' | 'expense')}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="income">Receita</SelectItem>
-                <SelectItem value="expense">Despesa</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            <FieldDescription className="text-xs leading-4 text-gray-500">Opcional</FieldDescription>
+          </Field>
           <div className="space-y-1">
             <Label>Ícone</Label>
             <IconPicker value={icon} onChange={setIcon} disabled={loading} />
@@ -124,10 +120,7 @@ export function EditCategoryDialog({
             <ColorPicker value={color} onChange={setColor} disabled={loading} />
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" size="md" disabled={loading} className="w-full">
               {loading ? 'Salvando...' : 'Salvar'}
             </Button>
           </div>
