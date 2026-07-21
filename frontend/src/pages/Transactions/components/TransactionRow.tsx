@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import { getTransactionIcon } from '@/lib/transaction-icon'
 import type { Transaction } from '@/types'
+import {CategoryBadge} from "@/pages/Categories/components/CategoryBadge.tsx";
+import {getCategoryIcon} from "@/pages/Categories/components/categoryIcons.ts";
 
 interface TransactionRowProps {
   transaction: Transaction
@@ -11,31 +13,29 @@ interface TransactionRowProps {
 }
 
 export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRowProps) {
-  const isIncome = transaction.type === 'income'
-  const Icon = getTransactionIcon(transaction)
-  const color = transaction.category?.color || '#6B7280'
+    const isIncome = transaction.type === 'income'
+  // const Icon = getTransactionIcon(transaction)
+    const Icon = getCategoryIcon(transaction.category?.icon)
+    const color = transaction.category?.color || '#6B7280'
 
   return (
     <div className="grid grid-cols-[1.6fr_0.7fr_0.8fr_0.7fr_0.9fr_0.8fr] items-center gap-4 border-b px-6 py-4 last:border-b-0">
       <div className="flex min-w-0 items-center gap-3">
         <div
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+          className="flex size-10 shrink-0 items-center justify-center rounded-lg"
           style={{ backgroundColor: `${color}1a` }}
         >
-          <Icon className="h-5 w-5" style={{ color }} />
+          <Icon className="size-4" style={{ color }} />
         </div>
-        <p className="truncate text-sm font-medium">{transaction.description}</p>
+        <p className="truncate text-base leading-6 font-medium">{transaction.description}</p>
       </div>
 
-      <p className="text-sm text-muted-foreground">{formatDate(transaction.createdAt)}</p>
+      <p className="text-sm leading-5 text-gray-600">
+          {formatDate(transaction.createdAt)}
+      </p>
 
       <div>
-        <span
-          className="rounded-full px-2.5 py-0.5 text-xs font-medium"
-          style={{ backgroundColor: `${color}1a`, color }}
-        >
-          {transaction.category?.name}
-        </span>
+        <CategoryBadge name={transaction.category?.name} color={color} />
       </div>
 
       <div
@@ -45,19 +45,14 @@ export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRow
         )}
       >
         {isIncome ? (
-          <ArrowUpCircle className="h-4 w-4" />
+          <ArrowUpCircle className="size-4" />
         ) : (
-          <ArrowDownCircle className="h-4 w-4" />
+          <ArrowDownCircle className="size-4" />
         )}
         {isIncome ? 'Entrada' : 'Saída'}
       </div>
 
-      <p
-        className={cn(
-          'text-right text-sm font-semibold',
-          isIncome ? 'text-green-600' : 'text-red-500'
-        )}
-      >
+      <p className="text-right text-sm font-semibold text-gray-800">
         {isIncome ? '+' : '-'} {formatCurrency(transaction.amount)}
       </p>
 
@@ -65,13 +60,18 @@ export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRow
         <Button
           variant="outline"
           size="icon-sm"
-          className="border-destructive/30 text-destructive hover:bg-destructive/10"
+          className="border-gray-300 text-destructive hover:bg-gray-200 hover:text-destructive"
           onClick={() => onDelete(transaction)}
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="size-4" />
         </Button>
-        <Button variant="outline" size="icon-sm" onClick={() => onEdit(transaction)}>
-          <Pencil className="h-4 w-4" />
+        <Button
+            variant="outline"
+            size="icon-sm"
+            onClick={() => onEdit(transaction)}
+            className="text-gray-700 border-gray-300 hover:text-gray-700 hover:bg-gray-200"
+        >
+          <Pencil className="size-4" />
         </Button>
       </div>
     </div>
