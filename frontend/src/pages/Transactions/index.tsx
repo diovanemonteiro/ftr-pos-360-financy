@@ -176,13 +176,6 @@ export function Transactions() {
         </div>
 
         <div className="rounded-xl border bg-card">
-          {loading &&
-            Array.from({ length: 5 }).map((_, i) => (
-              <div key={`skeleton-${i}`} className="border-b px-6 py-4 last:border-b-0">
-                <div className="h-10 animate-pulse rounded-lg bg-foreground/10" />
-              </div>
-            ))}
-
           {!loading && paginated.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
               <Wallet className="mb-4 h-12 w-12 opacity-30" />
@@ -191,9 +184,17 @@ export function Transactions() {
             </div>
           )}
 
-          {!loading && paginated.length > 0 && (
+          {(loading || paginated.length > 0) && (
             <div className="hidden overflow-x-auto md:block">
-              <table className="w-full text-left">
+              <table className="w-full table-fixed text-left">
+                <colgroup>
+                  <col className="w-[29%]" />
+                  <col className="w-[13%]" />
+                  <col className="w-[15%]" />
+                  <col className="w-[13%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[14%]" />
+                </colgroup>
                 <thead>
                   <tr className="border-b text-xs font-semibold leading-4 tracking-wider text-gray-500 uppercase">
                     <th className="px-6 py-5 font-semibold">Descrição</th>
@@ -205,29 +206,81 @@ export function Transactions() {
                   </tr>
                 </thead>
                 <tbody>
-                  {paginated.map((transaction) => (
-                    <TransactionRow
-                      key={transaction.id}
-                      transaction={transaction}
-                      onEdit={setEditTarget}
-                      onDelete={setDeleteTarget}
-                    />
-                  ))}
+                  {loading &&
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <tr key={`skeleton-row-${i}`} className="border-b last:border-b-0">
+                        <td className="px-6 py-4">
+                          <div className="h-4 w-3/4 animate-pulse rounded bg-foreground/10" />
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="h-4 w-3/5 animate-pulse rounded bg-foreground/10" />
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="h-6 w-20 animate-pulse rounded-full bg-foreground/10" />
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="h-4 w-16 animate-pulse rounded bg-foreground/10" />
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="ml-auto h-4 w-20 animate-pulse rounded bg-foreground/10" />
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="ml-auto h-8 w-16 animate-pulse rounded bg-foreground/10" />
+                        </td>
+                      </tr>
+                    ))}
+
+                  {!loading &&
+                    paginated.map((transaction) => (
+                      <TransactionRow
+                        key={transaction.id}
+                        transaction={transaction}
+                        onEdit={setEditTarget}
+                        onDelete={setDeleteTarget}
+                      />
+                    ))}
                 </tbody>
               </table>
             </div>
           )}
 
-          {!loading && paginated.length > 0 && (
+          {(loading || paginated.length > 0) && (
             <div className="md:hidden">
-              {paginated.map((transaction) => (
-                <TransactionCard
-                  key={transaction.id}
-                  transaction={transaction}
-                  onEdit={setEditTarget}
-                  onDelete={setDeleteTarget}
-                />
-              ))}
+              {loading &&
+                Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={`skeleton-card-${i}`}
+                    className="flex flex-col gap-3 border-b px-4 py-4 last:border-b-0"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="size-10 shrink-0 animate-pulse rounded-lg bg-foreground/10" />
+                        <div className="flex flex-col gap-2">
+                          <div className="h-4 w-32 animate-pulse rounded bg-foreground/10" />
+                          <div className="h-3 w-20 animate-pulse rounded bg-foreground/10" />
+                        </div>
+                      </div>
+                      <div className="h-4 w-16 shrink-0 animate-pulse rounded bg-foreground/10" />
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="h-6 w-20 animate-pulse rounded-full bg-foreground/10" />
+                      <div className="flex items-center gap-2">
+                        <div className="size-8 animate-pulse rounded-md bg-foreground/10" />
+                        <div className="size-8 animate-pulse rounded-md bg-foreground/10" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+              {!loading &&
+                paginated.map((transaction) => (
+                  <TransactionCard
+                    key={transaction.id}
+                    transaction={transaction}
+                    onEdit={setEditTarget}
+                    onDelete={setDeleteTarget}
+                  />
+                ))}
             </div>
           )}
 
