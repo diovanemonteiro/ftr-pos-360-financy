@@ -19,6 +19,7 @@ import { EditTransactionDialog } from '@/pages/Transactions/components/EditTrans
 import { DeleteTransactionDialog } from '@/pages/Transactions/components/DeleteTransactionDialog.tsx'
 import type { Category, Transaction } from '@/types'
 import { TransactionRow } from './components/TransactionRow'
+import { TransactionCard } from './components/TransactionCard'
 
 const PAGE_SIZE = 10
 
@@ -175,19 +176,10 @@ export function Transactions() {
         </div>
 
         <div className="rounded-xl border bg-card">
-          <div className="grid grid-cols-[1.6fr_0.7fr_0.8fr_0.7fr_0.9fr_0.8fr] gap-4 border-b px-6 py-5 text-xs font-semibold leading-4 tracking-wider text-gray-500 uppercase">
-            <span>Descrição</span>
-            <span>Data</span>
-            <span>Categoria</span>
-            <span>Tipo</span>
-            <span className="text-right">Valor</span>
-            <span className="text-right">Ações</span>
-          </div>
-
           {loading &&
             Array.from({ length: 5 }).map((_, i) => (
               <div key={`skeleton-${i}`} className="border-b px-6 py-4 last:border-b-0">
-                <div className="h-10 animate-pulse rounded-lg bg-muted/50" />
+                <div className="h-10 animate-pulse rounded-lg bg-foreground/10" />
               </div>
             ))}
 
@@ -199,15 +191,45 @@ export function Transactions() {
             </div>
           )}
 
-          {!loading &&
-            paginated.map((transaction) => (
-              <TransactionRow
-                key={transaction.id}
-                transaction={transaction}
-                onEdit={setEditTarget}
-                onDelete={setDeleteTarget}
-              />
-            ))}
+          {!loading && paginated.length > 0 && (
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b text-xs font-semibold leading-4 tracking-wider text-gray-500 uppercase">
+                    <th className="px-6 py-5 font-semibold">Descrição</th>
+                    <th className="px-6 py-5 font-semibold">Data</th>
+                    <th className="px-6 py-5 font-semibold">Categoria</th>
+                    <th className="px-6 py-5 font-semibold">Tipo</th>
+                    <th className="px-6 py-5 text-right font-semibold">Valor</th>
+                    <th className="px-6 py-5 text-right font-semibold">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginated.map((transaction) => (
+                    <TransactionRow
+                      key={transaction.id}
+                      transaction={transaction}
+                      onEdit={setEditTarget}
+                      onDelete={setDeleteTarget}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {!loading && paginated.length > 0 && (
+            <div className="md:hidden">
+              {paginated.map((transaction) => (
+                <TransactionCard
+                  key={transaction.id}
+                  transaction={transaction}
+                  onEdit={setEditTarget}
+                  onDelete={setDeleteTarget}
+                />
+              ))}
+            </div>
+          )}
 
           {!loading && filtered.length > 0 && (
             <div className="flex items-center justify-between px-6 py-4">
