@@ -26,6 +26,7 @@ interface AuthState {
   isAuthenticated: boolean
   login: (data: LoginInput) => Promise<boolean>
   signup: (data: RegisterInput) => Promise<boolean>
+  setUser: (user: User) => void
   logout: () => void
 }
 
@@ -74,6 +75,9 @@ export const useAuthStore = create<AuthState>()(
           console.log('Erro ao fazer o cadastro')
           throw error
         }
+      },
+      setUser: (user: User) => {
+        set({ user })
       },
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false })

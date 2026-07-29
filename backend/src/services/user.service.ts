@@ -1,5 +1,5 @@
 import {prismaClient} from "../../prisma/prisma";
-import {CreateUserInput} from "../dtos/input/user.input";
+import {CreateUserInput, UpdateUserInput} from "../dtos/input/user.input";
 
 export class UserService {
 
@@ -17,6 +17,19 @@ export class UserService {
             data: {
                 name: input.name,
                 email: input.email
+            }
+        })
+    }
+
+    async updateUser(id: string, input: UpdateUserInput) {
+        await this.findUser(id)
+
+        return prismaClient.user.update({
+            where: {
+                id
+            },
+            data: {
+                name: input.name
             }
         })
     }

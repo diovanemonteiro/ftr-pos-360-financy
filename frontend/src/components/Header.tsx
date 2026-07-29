@@ -1,10 +1,7 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../stores/auth'
-import { Button } from './ui/button'
 import { Avatar, AvatarFallback } from './ui/avatar'
-import { LogOut } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import logoIcon from '../assets/logo-icon.png'
+import { cn, getInitials } from '@/lib/utils'
 import logo from '../assets/logo.svg'
 
 const NAV_ITEMS = [
@@ -14,14 +11,8 @@ const NAV_ITEMS = [
 ]
 
 export function Header() {
-  const { user, logout, isAuthenticated } = useAuthStore()
+  const { user, isAuthenticated } = useAuthStore()
   const location = useLocation()
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
-  }
 
   return (
     <div className="w-full border-b bg-white px-12 py-4">
@@ -47,19 +38,14 @@ export function Header() {
               )
             })}
           </nav>
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarFallback className="bg-primary text-primary-foreground">
-                {user?.name?.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">{user?.name}</span>
-              <span className="text-xs text-muted-foreground">{user?.email}</span>
-            </div>
-            <Button variant="ghost" size="icon" onClick={handleLogout}>
-              <LogOut className="w-4 h-4" />
-            </Button>
+          <div className="min-w-48 flex items-center justify-end">
+            <Link to="/profile" title="Perfil" aria-label="Perfil">
+              <Avatar size="lg">
+                <AvatarFallback className="bg-gray-200 text-sm font-medium text-gray-800">
+                  {getInitials(user?.name)}
+                </AvatarFallback>
+              </Avatar>
+            </Link>
           </div>
         </div>
       )}
