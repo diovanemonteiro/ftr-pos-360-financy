@@ -10,16 +10,16 @@ const CATEGORIES: {
   description: string
   type: TransactionType
 }[] = [
-  { name: 'Salário', color: '#22c55e', icon: 'briefcase', description: 'Renda mensal do trabalho', type: 'income' },
-  { name: 'Freelance', color: '#84cc16', icon: 'tool-case', description: 'Trabalhos autônomos', type: 'income' },
-  { name: 'Investimentos', color: '#14b8a6', icon: 'piggy-bank', description: 'Rendimentos de investimentos', type: 'income' },
-  { name: 'Alimentação', color: '#f97316', icon: 'utensils', description: 'Restaurantes e supermercado', type: 'expense' },
-  { name: 'Transporte', color: '#3b82f6', icon: 'car-front', description: 'Combustível e transporte público', type: 'expense' },
-  { name: 'Moradia', color: '#8b5cf6', icon: 'house', description: 'Aluguel e contas da casa', type: 'expense' },
-  { name: 'Saúde', color: '#ef4444', icon: 'heart-pulse', description: 'Consultas e farmácia', type: 'expense' },
-  { name: 'Lazer', color: '#ec4899', icon: 'ticket', description: 'Entretenimento e passeios', type: 'expense' },
-  { name: 'Compras', color: '#eab308', icon: 'shopping-cart', description: 'Roupas e itens diversos', type: 'expense' },
-  { name: 'Educação', color: '#06b6d4', icon: 'book-open', description: 'Cursos e material de estudo', type: 'expense' },
+  { name: 'Salário', color: 'green', icon: 'briefcase', description: 'Renda mensal do trabalho', type: 'income' },
+  { name: 'Freelance', color: 'yellow', icon: 'tool-case', description: 'Trabalhos autônomos', type: 'income' },
+  { name: 'Investimentos', color: 'green', icon: 'piggy-bank', description: 'Rendimentos de investimentos', type: 'income' },
+  { name: 'Alimentação', color: 'orange', icon: 'utensils', description: 'Restaurantes e supermercado', type: 'expense' },
+  { name: 'Transporte', color: 'blue', icon: 'car-front', description: 'Combustível e transporte público', type: 'expense' },
+  { name: 'Moradia', color: 'purple', icon: 'house', description: 'Aluguel e contas da casa', type: 'expense' },
+  { name: 'Saúde', color: 'red', icon: 'heart-pulse', description: 'Consultas e farmácia', type: 'expense' },
+  { name: 'Lazer', color: 'pink', icon: 'ticket', description: 'Entretenimento e passeios', type: 'expense' },
+  { name: 'Compras', color: 'yellow', icon: 'shopping-cart', description: 'Roupas e itens diversos', type: 'expense' },
+  { name: 'Educação', color: 'blue', icon: 'book-open', description: 'Cursos e material de estudo', type: 'expense' },
 ]
 
 const TRANSACTION_DESCRIPTIONS: Record<string, string[]> = {
