@@ -9,13 +9,14 @@ import {
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Field, FieldLabel, FieldDescription } from '@/components/ui/field'
+import { Field, FieldLabel, FieldDescription, FieldError } from '@/components/ui/field'
 import { useMutation } from '@apollo/client/react'
 import { CREATE_CATEGORY } from '@/lib/graphql/mutations/Category'
 import { toast } from 'sonner'
 import { IconPicker } from './IconPicker'
 import { ColorPicker } from './ColorPicker'
 import { DEFAULT_CATEGORY_ICON } from './categoryIcons'
+import { parseCategoryForm, type CategoryFormErrors } from '@/lib/schemas/category'
 
 interface CreateCategoryDialogProps {
   open: boolean
@@ -33,6 +34,7 @@ export function CreateCategoryDialog({
   const [type, setType] = useState<'income' | 'expense'>('expense')
   const [color, setColor] = useState('blue')
   const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON)
+  const [errors, setErrors] = useState<CategoryFormErrors>({})
 
   const [createCategory, { loading }] = useMutation(CREATE_CATEGORY, {
     onCompleted() {
@@ -44,6 +46,7 @@ export function CreateCategoryDialog({
       setType('expense')
       setColor('blue')
       setIcon(DEFAULT_CATEGORY_ICON)
+      setErrors({})
     },
     onError() {
       toast.error('Falha ao criar a categoria.')
@@ -52,9 +55,17 @@ export function CreateCategoryDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    const result = parseCategoryForm({ name, description, type, color, icon })
+    if (!result.success) {
+      setErrors(result.errors)
+      return
+    }
+    setErrors({})
+
     createCategory({
       variables: {
-        data: { name, description, type, color, icon },
+        data: result.data,
       },
     })
   }
@@ -78,9 +89,10 @@ export function CreateCategoryDialog({
               placeholder="Ex: Alimentação"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
+              aria-invalid={!!errors.name}
               disabled={loading}
             />
+            <FieldError errors={[errors.name ? { message: errors.name } : undefined]} />
           </div>
 
           <Field className="gap-2">
@@ -90,18 +102,22 @@ export function CreateCategoryDialog({
                 placeholder="Descriçao da categoria"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                aria-invalid={!!errors.description}
                 disabled={loading}
             />
             <FieldDescription className="text-xs leading-4 text-gray-500">Opcional</FieldDescription>
+            <FieldError errors={[errors.description ? { message: errors.description } : undefined]} />
           </Field>
 
           <div className="space-y-1">
             <Label>Ícone</Label>
             <IconPicker value={icon} onChange={setIcon} disabled={loading} />
+            <FieldError errors={[errors.icon ? { message: errors.icon } : undefined]} />
           </div>
           <div className="space-y-1">
             <Label>Cor</Label>
             <ColorPicker value={color} onChange={setColor} disabled={loading} />
+            <FieldError errors={[errors.color ? { message: errors.color } : undefined]} />
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button type="submit" size="md" disabled={loading} className="w-full">

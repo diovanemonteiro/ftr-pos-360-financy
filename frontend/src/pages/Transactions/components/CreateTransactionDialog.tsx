@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label.tsx'
 import { Input } from '@/components/ui/input.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Textarea } from '@/components/ui/textarea.tsx'
+import { FieldError } from '@/components/ui/field.tsx'
 import {
   Select,
   SelectContent,
@@ -24,6 +25,7 @@ import { toast } from 'sonner'
 import type { Category } from '@/types'
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { cn } from '@/lib/utils.ts'
+import { parseTransactionForm, type TransactionFormErrors } from '@/lib/schemas/transaction.ts'
 
 interface CreateTransactionDialogProps {
   open: boolean
@@ -41,6 +43,7 @@ export function CreateTransactionDialog({
   const [amount, setAmount] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [errors, setErrors] = useState<TransactionFormErrors>({})
 
   const { data: categoriesData } = useQuery<{ listCategories: Category[] }>(LIST_CATEGORIES)
   const categories = categoriesData?.listCategories || []
@@ -63,22 +66,27 @@ export function CreateTransactionDialog({
     setCategoryId('')
     setAmount('')
     setDate(new Date().toISOString().split('T')[0])
+    setErrors({})
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!categoryId) {
-      toast.error('Selecione uma categoria.')
+
+    const result = parseTransactionForm({ type, description, amount, date, categoryId })
+    if (!result.success) {
+      setErrors(result.errors)
       return
     }
+    setErrors({})
+
     createTransaction({
       variables: {
         data: {
-          description,
-          amount: parseFloat(amount),
-          type,
-          date,
-          categoryId,
+          description: result.data.description,
+          amount: Number(result.data.amount),
+          type: result.data.type,
+          date: result.data.date,
+          categoryId: result.data.categoryId,
         },
       },
     })
@@ -138,9 +146,10 @@ export function CreateTransactionDialog({
                 placeholder="Ex: Salário, Supermercado..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
+                aria-invalid={!!errors.description}
                 disabled={loading}
               />
+              <FieldError errors={[errors.description ? { message: errors.description } : undefined]} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -153,9 +162,10 @@ export function CreateTransactionDialog({
                   placeholder="0,00"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  required
+                  aria-invalid={!!errors.amount}
                   disabled={loading}
                 />
+                <FieldError errors={[errors.amount ? { message: errors.amount } : undefined]} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="date">Data</Label>
@@ -164,9 +174,10 @@ export function CreateTransactionDialog({
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  required
+                  aria-invalid={!!errors.date}
                   disabled={loading}
                 />
+                <FieldError errors={[errors.date ? { message: errors.date } : undefined]} />
               </div>
             </div>
             <div className="space-y-2">
@@ -176,7 +187,7 @@ export function CreateTransactionDialog({
                   value={categoryId}
                   onValueChange={setCategoryId}
               >
-                <SelectTrigger size="md" className="w-full">
+                <SelectTrigger size="md" className="w-full" aria-invalid={!!errors.categoryId}>
                   <SelectValue
                       placeholder="Selecione uma categoria"
                       className="text-base fonte-normal leading-4.5 text-gray-800"
@@ -194,6 +205,7 @@ export function CreateTransactionDialog({
                   ))}
                 </SelectContent>
               </Select>
+              <FieldError errors={[errors.categoryId ? { message: errors.categoryId } : undefined]} />
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">

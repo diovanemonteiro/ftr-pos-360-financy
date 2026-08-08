@@ -16,7 +16,8 @@ import type { Category } from '@/types'
 import { IconPicker } from './IconPicker'
 import { ColorPicker } from './ColorPicker'
 import { DEFAULT_CATEGORY_ICON } from './categoryIcons'
-import {Field, FieldDescription, FieldLabel} from "@/components/ui/field";
+import {Field, FieldDescription, FieldError, FieldLabel} from "@/components/ui/field";
+import { parseCategoryForm, type CategoryFormErrors } from '@/lib/schemas/category'
 
 interface EditCategoryDialogProps {
   open: boolean
@@ -37,6 +38,7 @@ export function EditCategoryDialog({
   const [color, setColor] = useState('blue')
   const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON)
   const [prevCategory, setPrevCategory] = useState(category)
+  const [errors, setErrors] = useState<CategoryFormErrors>({})
 
   if (category !== prevCategory) {
     setPrevCategory(category)
@@ -46,6 +48,7 @@ export function EditCategoryDialog({
       setType(category.type)
       setColor(category.color || 'blue')
       setIcon(category.icon || DEFAULT_CATEGORY_ICON)
+      setErrors({})
     }
   }
 
@@ -63,10 +66,18 @@ export function EditCategoryDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!category) return
+
+    const result = parseCategoryForm({ name, description, type, color, icon })
+    if (!result.success) {
+      setErrors(result.errors)
+      return
+    }
+    setErrors({})
+
     updateCategory({
       variables: {
         id: category.id,
-        data: { name, description, type, color, icon },
+        data: result.data,
       },
     })
   }
@@ -90,9 +101,10 @@ export function EditCategoryDialog({
                 placeholder="Ex: Alimentação, Salário..."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                required
+                aria-invalid={!!errors.name}
                 disabled={loading}
             />
+            <FieldError errors={[errors.name ? { message: errors.name } : undefined]} />
           </div>
           <Field className="gap-2">
             <FieldLabel htmlFor="cat-description">Descrição</FieldLabel>
@@ -101,17 +113,21 @@ export function EditCategoryDialog({
                 placeholder="Descriçao da categoria"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                aria-invalid={!!errors.description}
                 disabled={loading}
             />
             <FieldDescription className="text-xs leading-4 text-gray-500">Opcional</FieldDescription>
+            <FieldError errors={[errors.description ? { message: errors.description } : undefined]} />
           </Field>
           <div className="space-y-1">
             <Label>Ícone</Label>
             <IconPicker value={icon} onChange={setIcon} disabled={loading} />
+            <FieldError errors={[errors.icon ? { message: errors.icon } : undefined]} />
           </div>
           <div className="space-y-1">
             <Label>Cor</Label>
             <ColorPicker value={color} onChange={setColor} disabled={loading} />
+            <FieldError errors={[errors.color ? { message: errors.color } : undefined]} />
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button type="submit" size="md" disabled={loading} className="w-full">

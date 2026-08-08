@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label.tsx'
 import { Input } from '@/components/ui/input.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Textarea } from '@/components/ui/textarea.tsx'
+import { FieldError } from '@/components/ui/field.tsx'
 import {
   Select,
   SelectContent,
@@ -24,6 +25,7 @@ import { toast } from 'sonner'
 import type { Category, Transaction } from '@/types'
 import {cn} from "@/lib/utils.ts";
 import {ArrowDownCircle, ArrowUpCircle} from "lucide-react";
+import { parseTransactionForm, type TransactionFormErrors } from '@/lib/schemas/transaction.ts'
 
 interface EditTransactionDialogProps {
   open: boolean
@@ -43,6 +45,7 @@ export function EditTransactionDialog({
   const [categoryId, setCategoryId] = useState('')
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState('')
+  const [errors, setErrors] = useState<TransactionFormErrors>({})
 
   const { data: categoriesData } = useQuery<{ listCategories: Category[] }>(LIST_CATEGORIES)
   const categories = categoriesData?.listCategories || []
@@ -54,6 +57,7 @@ export function EditTransactionDialog({
       setDescription(transaction.description || '')
       setAmount(String(transaction.amount))
       setDate(transaction.createdAt.split('T')[0])
+      setErrors({})
     }
   }, [transaction])
 
@@ -71,15 +75,23 @@ export function EditTransactionDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!transaction) return
+
+    const result = parseTransactionForm({ type, description, amount, date, categoryId })
+    if (!result.success) {
+      setErrors(result.errors)
+      return
+    }
+    setErrors({})
+
     updateTransaction({
       variables: {
         id: transaction.id,
         data: {
-          type,
-          description: description || undefined,
-          categoryId,
-          amount: parseFloat(amount),
-          date,
+          type: result.data.type,
+          description: result.data.description,
+          categoryId: result.data.categoryId,
+          amount: Number(result.data.amount),
+          date: result.data.date,
         },
       },
     })
@@ -135,9 +147,10 @@ export function EditTransactionDialog({
                   placeholder="Ex: Salário, Supermercado..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  required
+                  aria-invalid={!!errors.description}
                   disabled={loading}
               />
+              <FieldError errors={[errors.description ? { message: errors.description } : undefined]} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -150,9 +163,10 @@ export function EditTransactionDialog({
                     placeholder="0,00"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    required
+                    aria-invalid={!!errors.amount}
                     disabled={loading}
                 />
+                <FieldError errors={[errors.amount ? { message: errors.amount } : undefined]} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="date">Data</Label>
@@ -161,9 +175,10 @@ export function EditTransactionDialog({
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    required
+                    aria-invalid={!!errors.date}
                     disabled={loading}
                 />
+                <FieldError errors={[errors.date ? { message: errors.date } : undefined]} />
               </div>
             </div>
             <div className="space-y-2">
@@ -173,7 +188,7 @@ export function EditTransactionDialog({
                   value={categoryId}
                   onValueChange={setCategoryId}
               >
-                <SelectTrigger size="md" className="w-full">
+                <SelectTrigger size="md" className="w-full" aria-invalid={!!errors.categoryId}>
                   <SelectValue
                       placeholder="Selecione uma categoria"
                       className="text-base fonte-normal leading-4.5 text-gray-800"
@@ -191,6 +206,7 @@ export function EditTransactionDialog({
                   ))}
                 </SelectContent>
               </Select>
+              <FieldError errors={[errors.categoryId ? { message: errors.categoryId } : undefined]} />
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
