@@ -1,14 +1,5 @@
 import { cn } from '@/lib/utils'
-
-const COLORS = [
-  { name: 'blue-base', value: '#2563EB' },
-  { name: 'purple-base', value: '#9333EA' },
-  { name: 'pink-base', value: '#DB2777' },
-  { name: 'red-base', value: '#DC2626' },
-  { name: 'orange-base', value: '#EA580C' },
-  { name: 'yellow-base', value: '#CA8A04' },
-  { name: 'green-base', value: '#16A34A' },
-]
+import { COLORS } from './categoryColors'
 
 interface ColorPickerProps {
   value: string
@@ -21,14 +12,14 @@ export function ColorPicker({ value, onChange, disabled }: ColorPickerProps) {
     <div className="flex flex-wrap gap-2">
       {COLORS.map((color) => (
         <button
-          key={color.name}
+          key={color.value}
           type="button"
-          title={color.name}
+          title={color.value}
           disabled={disabled}
           onClick={() => onChange(color.value)}
-          style={{ backgroundColor: color.value }}
           className={cn(
             'h-5 w-10 p-1 rounded-sm border-2 border-gray-100 transition-transform',
+            color.className,
             color.value === value
               ? 'border-primary ring-2 ring-primary ring-offset-2 ring-offset-background'
               : 'border-transparent hover:scale-110'

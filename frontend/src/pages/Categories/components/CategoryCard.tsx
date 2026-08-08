@@ -1,9 +1,11 @@
-import { Pencil, TrashIcon, SquarePenIcon } from 'lucide-react'
+import { TrashIcon, SquarePenIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 import type { Category } from '@/types'
 import { CategoryBadge } from './CategoryBadge'
 import { getCategoryIcon } from './categoryIcons'
+import { getCategoryColorClasses } from './categoryColors'
 
 interface CategoryCardProps {
   category: Category
@@ -12,17 +14,20 @@ interface CategoryCardProps {
 }
 
 export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) {
-  const color = category.color || '#6366f1'
+  const color = category.color
+  const colorClasses = getCategoryColorClasses(color)
   const icons = { Icon: getCategoryIcon(category.icon) }
 
   return (
     <Card size="sm" className="gap-5 p-6 min-h-57.5">
       <div className="flex items-start justify-between">
         <div
-          className="flex size-10 items-center justify-center rounded-md"
-          style={{ backgroundColor: `${color}1a` }}
+          className={cn(
+            'flex size-10 items-center justify-center rounded-md',
+            colorClasses.bg
+          )}
         >
-          <icons.Icon className="size-4" style={{ color }} />
+          <icons.Icon className={cn('size-4', colorClasses.text)} />
         </div>
         <div className="flex gap-2">
           <Button
