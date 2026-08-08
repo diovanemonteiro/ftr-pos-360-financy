@@ -1,4 +1,5 @@
-import {Navigate, Route, Routes} from 'react-router-dom'
+import {useEffect} from "react";
+import {Navigate, Route, Routes, useNavigate} from 'react-router-dom'
 import {Login} from "@/pages/Auth/Login.tsx";
 import {Register} from "@/pages/Auth/Register.tsx";
 import {Layout} from "@/components/Layout";
@@ -7,6 +8,7 @@ import {Dashboard} from "@/pages/Dashboard";
 import {Transactions} from "@/pages/Transactions";
 import {Categories} from "@/pages/Categories";
 import {Profile} from "@/pages/Profile";
+import {setNavigate} from "@/lib/navigation";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { isAuthenticated } = useAuthStore()
@@ -19,6 +21,12 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setNavigate(navigate)
+  }, [navigate])
+
   return (
     <>
       <Layout>
