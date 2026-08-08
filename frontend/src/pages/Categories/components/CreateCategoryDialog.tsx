@@ -82,8 +82,9 @@ export function CreateCategoryDialog({
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="cat-name">Nome</Label>
+
+          <Field className="gap-2" data-invalid={!!errors.name}>
+            <FieldLabel htmlFor="cat-name">Nome</FieldLabel>
             <Input
               id="cat-name"
               placeholder="Ex: Alimentação"
@@ -93,10 +94,10 @@ export function CreateCategoryDialog({
               disabled={loading}
             />
             <FieldError errors={[errors.name ? { message: errors.name } : undefined]} />
-          </div>
+          </Field>
 
           <Field className="gap-2">
-            <FieldLabel htmlFor="cat-description">Descrição</FieldLabel>
+            <FieldLabel htmlFor="cat-description" aria-invalid={!!errors.description}>Descrição</FieldLabel>
             <Input
                 id="cat-description"
                 placeholder="Descriçao da categoria"
