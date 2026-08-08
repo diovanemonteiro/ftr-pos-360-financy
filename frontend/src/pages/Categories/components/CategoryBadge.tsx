@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { getCategoryColorClasses } from './categoryColors'
 
 interface CategoryBadgeProps {
-  name: string | null
+  name: string | null | undefined
   color?: string | null
 }
 

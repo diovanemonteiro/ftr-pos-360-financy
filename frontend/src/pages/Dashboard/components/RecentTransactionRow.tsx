@@ -19,7 +19,7 @@ export function RecentTransactionRow({
   const isIncome = transaction.type === 'income'
   const color = transaction.category?.color
   const colorClasses = getCategoryColorClasses(color)
-  const Icon = getCategoryIcon(transaction.category?.icon)
+  const icons = { Icon: getCategoryIcon(transaction.category?.icon) }
 
   return (
     <div
@@ -35,7 +35,7 @@ export function RecentTransactionRow({
               colorClasses.bg
             )}
           >
-            <Icon className={cn('size-4', colorClasses.text)} />
+            <icons.Icon className={cn('size-4', colorClasses.text)} />
           </div>
 
           <div className="gap-0.5">
@@ -70,16 +70,16 @@ export function RecentTransactionRow({
               )}
           </span>
 
-          {/*<button*/}
-          {/*    type="button"*/}
-          {/*    className="text-muted-foreground/30 opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"*/}
-          {/*    onClick={(e) => {*/}
-          {/*      e.stopPropagation()*/}
-          {/*      onDelete(transaction)*/}
-          {/*    }}*/}
-          {/*>*/}
-          {/*  <Trash2 className="h-4 w-4" />*/}
-          {/*</button>*/}
+          <button
+              type="button"
+              className="text-muted-foreground/30 opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
+              onClick={(e) => {
+                e.stopPropagation()
+                onDelete(transaction)
+              }}
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
 
       </div>
 

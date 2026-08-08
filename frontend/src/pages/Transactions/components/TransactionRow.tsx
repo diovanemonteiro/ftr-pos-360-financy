@@ -14,7 +14,7 @@ interface TransactionRowProps {
 
 export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRowProps) {
     const isIncome = transaction.type === 'income'
-    const Icon = getCategoryIcon(transaction.category?.icon)
+    const icons = { Icon: getCategoryIcon(transaction.category?.icon) }
     const color = transaction.category?.color
     const colorClasses = getCategoryColorClasses(color)
 
@@ -28,7 +28,7 @@ export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRow
               colorClasses.bg
             )}
           >
-            <Icon className={cn('size-4', colorClasses.text)} />
+            <icons.Icon className={cn('size-4', colorClasses.text)} />
           </div>
           <p className="truncate text-base leading-6 font-medium">{transaction.description}</p>
         </div>

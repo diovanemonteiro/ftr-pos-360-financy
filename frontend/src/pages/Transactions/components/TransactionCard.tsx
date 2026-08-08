@@ -14,7 +14,7 @@ interface TransactionCardProps {
 
 export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCardProps) {
     const isIncome = transaction.type === 'income'
-    const Icon = getCategoryIcon(transaction.category?.icon)
+    const icons = { Icon: getCategoryIcon(transaction.category?.icon) }
     const color = transaction.category?.color
     const colorClasses = getCategoryColorClasses(color)
 
@@ -28,7 +28,7 @@ export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCa
               colorClasses.bg
             )}
           >
-            <Icon className={cn('size-4', colorClasses.text)} />
+            <icons.Icon className={cn('size-4', colorClasses.text)} />
           </div>
           <div className="min-w-0">
             <p className="truncate text-base leading-6 font-medium">{transaction.description}</p>

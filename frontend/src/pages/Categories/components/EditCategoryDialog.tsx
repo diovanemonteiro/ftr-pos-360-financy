@@ -1,22 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { useMutation } from '@apollo/client/react'
 import { UPDATE_CATEGORY } from '@/lib/graphql/mutations/Category'
 import { toast } from 'sonner'
@@ -24,7 +16,7 @@ import type { Category } from '@/types'
 import { IconPicker } from './IconPicker'
 import { ColorPicker } from './ColorPicker'
 import { DEFAULT_CATEGORY_ICON } from './categoryIcons'
-import {Field, FieldDescription, FieldLabel} from "@/components/ui/field.tsx";
+import {Field, FieldDescription, FieldLabel} from "@/components/ui/field";
 
 interface EditCategoryDialogProps {
   open: boolean
@@ -44,8 +36,10 @@ export function EditCategoryDialog({
   const [type, setType] = useState<'income' | 'expense'>('expense')
   const [color, setColor] = useState('blue')
   const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON)
+  const [prevCategory, setPrevCategory] = useState(category)
 
-  useEffect(() => {
+  if (category !== prevCategory) {
+    setPrevCategory(category)
     if (category) {
       setName(category.name)
       setDescription(category.description || '')
@@ -53,7 +47,7 @@ export function EditCategoryDialog({
       setColor(category.color || 'blue')
       setIcon(category.icon || DEFAULT_CATEGORY_ICON)
     }
-  }, [category])
+  }
 
   const [updateCategory, { loading }] = useMutation(UPDATE_CATEGORY, {
     onCompleted() {
