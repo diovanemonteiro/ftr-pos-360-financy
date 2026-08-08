@@ -42,7 +42,7 @@ export function EditCategoryDialog({
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
-  const [color, setColor] = useState('#6366f1')
+  const [color, setColor] = useState('blue')
   const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON)
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export function EditCategoryDialog({
       setName(category.name)
       setDescription(category.description || '')
       setType(category.type)
-      setColor(category.color || '#6366f1')
+      setColor(category.color || 'blue')
       setIcon(category.icon || DEFAULT_CATEGORY_ICON)
     }
   }, [category])

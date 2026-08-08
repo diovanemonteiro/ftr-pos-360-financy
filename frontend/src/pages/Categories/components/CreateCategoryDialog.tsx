@@ -31,7 +31,7 @@ export function CreateCategoryDialog({
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
-  const [color, setColor] = useState('#6366f1')
+  const [color, setColor] = useState('blue')
   const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON)
 
   const [createCategory, { loading }] = useMutation(CREATE_CATEGORY, {
@@ -42,7 +42,7 @@ export function CreateCategoryDialog({
       setName('')
       setDescription('')
       setType('expense')
-      setColor('#6366f1')
+      setColor('blue')
       setIcon(DEFAULT_CATEGORY_ICON)
     },
     onError() {

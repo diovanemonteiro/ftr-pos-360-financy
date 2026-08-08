@@ -3,6 +3,7 @@ import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import type { Transaction } from '@/types'
 import {getCategoryIcon} from "@/pages/Categories/components/categoryIcons";
 import {CategoryBadge} from "@/pages/Categories/components/CategoryBadge.tsx";
+import {getCategoryColorClasses} from "@/pages/Categories/components/categoryColors.ts";
 
 interface RecentTransactionRowProps {
   transaction: Transaction
@@ -16,7 +17,8 @@ export function RecentTransactionRow({
   onDelete,
 }: RecentTransactionRowProps) {
   const isIncome = transaction.type === 'income'
-  const color = transaction.category?.color || '#6B7280'
+  const color = transaction.category?.color
+  const colorClasses = getCategoryColorClasses(color)
   const Icon = getCategoryIcon(transaction.category?.icon)
 
   return (
@@ -28,10 +30,12 @@ export function RecentTransactionRow({
         <div className="flex items-center gap-4 px-6">
 
           <div
-            className="flex size-10 shrink-0 items-center justify-center rounded-lg"
-            style={{ backgroundColor: `${color}1a` }}
+            className={cn(
+              'flex size-10 shrink-0 items-center justify-center rounded-lg',
+              colorClasses.bg
+            )}
           >
-            <Icon className="size-4" style={{ color }} />
+            <Icon className={cn('size-4', colorClasses.text)} />
           </div>
 
           <div className="gap-0.5">

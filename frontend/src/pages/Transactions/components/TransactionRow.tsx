@@ -4,6 +4,7 @@ import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import type { Transaction } from '@/types'
 import {CategoryBadge} from "@/pages/Categories/components/CategoryBadge.tsx";
 import {getCategoryIcon} from "@/pages/Categories/components/categoryIcons.ts";
+import {getCategoryColorClasses} from "@/pages/Categories/components/categoryColors.ts";
 
 interface TransactionRowProps {
   transaction: Transaction
@@ -14,17 +15,20 @@ interface TransactionRowProps {
 export function TransactionRow({ transaction, onEdit, onDelete }: TransactionRowProps) {
     const isIncome = transaction.type === 'income'
     const Icon = getCategoryIcon(transaction.category?.icon)
-    const color = transaction.category?.color || '#6B7280'
+    const color = transaction.category?.color
+    const colorClasses = getCategoryColorClasses(color)
 
   return (
     <tr className="border-b last:border-b-0">
       <td className="px-6 py-4">
         <div className="flex min-w-0 items-center gap-3">
           <div
-            className="flex size-10 shrink-0 items-center justify-center rounded-lg"
-            style={{ backgroundColor: `${color}1a` }}
+            className={cn(
+              'flex size-10 shrink-0 items-center justify-center rounded-lg',
+              colorClasses.bg
+            )}
           >
-            <Icon className="size-4" style={{ color }} />
+            <Icon className={cn('size-4', colorClasses.text)} />
           </div>
           <p className="truncate text-base leading-6 font-medium">{transaction.description}</p>
         </div>

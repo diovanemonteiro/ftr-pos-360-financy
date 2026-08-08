@@ -4,6 +4,7 @@ import { cn, formatCurrency, formatDate } from '@/lib/utils'
 import type { Transaction } from '@/types'
 import {CategoryBadge} from "@/pages/Categories/components/CategoryBadge.tsx";
 import {getCategoryIcon} from "@/pages/Categories/components/categoryIcons.ts";
+import {getCategoryColorClasses} from "@/pages/Categories/components/categoryColors.ts";
 
 interface TransactionCardProps {
   transaction: Transaction
@@ -14,17 +15,20 @@ interface TransactionCardProps {
 export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCardProps) {
     const isIncome = transaction.type === 'income'
     const Icon = getCategoryIcon(transaction.category?.icon)
-    const color = transaction.category?.color || '#6B7280'
+    const color = transaction.category?.color
+    const colorClasses = getCategoryColorClasses(color)
 
   return (
     <div className="flex flex-col gap-3 border-b px-4 py-4 last:border-b-0">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
           <div
-            className="flex size-10 shrink-0 items-center justify-center rounded-lg"
-            style={{ backgroundColor: `${color}1a` }}
+            className={cn(
+              'flex size-10 shrink-0 items-center justify-center rounded-lg',
+              colorClasses.bg
+            )}
           >
-            <Icon className="size-4" style={{ color }} />
+            <Icon className={cn('size-4', colorClasses.text)} />
           </div>
           <div className="min-w-0">
             <p className="truncate text-base leading-6 font-medium">{transaction.description}</p>
@@ -43,7 +47,7 @@ export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCa
 
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
-          <CategoryBadge name={transaction.category?.name} color={color} />
+          <CategoryBadge name={transaction?.category?.name} color={color} />
           <div
             className={cn(
               'flex items-center gap-1.5 text-sm font-medium',

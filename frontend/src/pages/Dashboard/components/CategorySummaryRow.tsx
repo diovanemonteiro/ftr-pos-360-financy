@@ -9,21 +9,13 @@ interface CategorySummaryRowProps {
 }
 
 export function CategorySummaryRow({ category, itemsCount, total }: CategorySummaryRowProps) {
-  const color = category.color || '#6B7280'
-
   return (
     <div className="flex items-center gap-1 h-7">
 
         <div className="w-27 flex-1">
-            {/*<span*/}
-            {/*  className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"*/}
-            {/*  style={{ backgroundColor: `${color}1a`, color }}*/}
-            {/*>*/}
-            {/*  {category.name}*/}
-            {/*</span>*/}
             <CategoryBadge
                 name={category.name}
-                color={color}
+                color={category.color}
             />
         </div>
 
